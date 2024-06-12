@@ -27,17 +27,30 @@ static const char col_cyan[]        = "#005577";
 static const char col_mauve[]       = "#cba6f7";
 
 // everforest
-static const char col_purple[]      = "#D699B6";
-static const char col_status3[]     = "#E67E80";
-static const char col_aqua[]        = "#83C092";
+static const char ef_col_purple[]   = "#D699B6";
+static const char ef_col_status3[]  = "#E67E80";
+static const char ef_col_aqua[]     = "#83C092";
 
-static const char col_bg0[]         = "#272e33";
-static const char col_bg1[]         = "#2e383c";
-static const char col_bg2[]         = "#374145";
-static const char col_bg3[]         = "#414b50";
-static const char col_bg4[]         = "#495156";
-static const char col_bg5[]         = "#4f5b58";
-static const char col_fg[]          = "#d3c6aa";
+static const char ef_col_bg0[]      = "#272e33";
+static const char ef_col_bg1[]      = "#2e383c";
+static const char ef_col_bg2[]      = "#374145";
+static const char ef_col_bg3[]      = "#414b50";
+static const char ef_col_bg4[]      = "#495156";
+static const char ef_col_bg5[]      = "#4f5b58";
+static const char ef_col_fg[]       = "#d3c6aa";
+
+// Gruvbox Material
+static const char col_purple[]      = "#D3869b";
+static const char col_status3[]     = "#504945";
+static const char col_aqua[]        = "#89b482";
+
+static const char col_bg0[]         = "#1d2021";
+static const char col_bg1[]         = "#282828";
+static const char col_bg2[]         = "#282828";
+static const char col_bg3[]         = "#3c3836";
+static const char col_bg4[]         = "#3c3836";
+static const char col_bg5[]         = "#504945";
+static const char col_fg[]          = "#d4be98";
 
 static const char *colors[][3]      = {
     /*               fg         bg         border   */
@@ -54,7 +67,7 @@ static const Rule rules[] = {
      *	WM_NAME(STRING) = title
     */
     /* class      instance    title       tags mask     isfloating   monitor */
-    { "Blueman-Manager", NULL,       NULL,       0,            1,           -1 },
+    { "Blueman", NULL,       NULL,       0,            1,           -1 },
     { "Gimp",            NULL,       NULL,       0,            1,           -1 },
     { "Firefox",         NULL,       NULL,       1 << 8,       0,           -1 },
 };
@@ -207,4 +220,6 @@ static char* commands[] = {
     "slstatus",
     "feh --bg-fill /home/magic/Pictures/a1.png",
     "picom -b",
+    "pulseaudio --start", // Cause PulseAudio is kinda stupid
+    "twmnd",
 };

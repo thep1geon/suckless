@@ -1,5 +1,4 @@
-# dwm - dynamic window manager
-# See LICENSE file for copyright and license details.
+# dwm - dynamic window managerma See LICENSE file for copyright and license details.
 
 include config.mk
 
@@ -21,7 +20,6 @@ dwm: ${OBJ}
 
 clean:
 	rm -f dwm ${OBJ} dwm-${VERSION}.tar.gz
-	rm config.h
 
 dist: clean
 	mkdir -p dwm-${VERSION}
