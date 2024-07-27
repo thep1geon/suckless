@@ -1,0 +1,46 @@
+From 8375f197e9af7d219abe65cf0311ea16dea852f1 Mon Sep 17 00:00:00 2001
+From: sewn <sewn@disroot.org>
+Date: Thu, 31 Aug 2023 15:01:07 +0300
+Subject: [PATCH] volume: add mute support for ALSA
+
+---
+ components/volume.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/components/volume.c b/components/volume.c
+index 15c5a39..8636f61 100644
+--- a/components/volume.c
++++ b/components/volume.c
+@@ -193,7 +193,7 @@
+ 		snd_mixer_selem_id_t *mixid = NULL;
+ 		snd_mixer_elem_t *elem = NULL;
+ 		long min = 0, max = 0, volume = -1;
+-		int err;
++		int err, sw1, sw2;
+ 
+ 		if ((err = snd_mixer_open(&mixer, 0))) {
+ 			warn("snd_mixer_open: %d", err);
+@@ -229,13 +229,19 @@
+ 		if ((err = snd_mixer_selem_get_playback_volume(elem, SND_MIXER_SCHN_MONO, &volume))) {
+ 			warn("snd_mixer_selem_get_playback_volume(): %d", err);
+ 		}
++		if ((err = snd_mixer_selem_get_playback_switch(elem, 0, &sw1))) {
++			warn("snd_mixer_selem_get_playback_switch(): %d", err);
++		}
++		if ((err = snd_mixer_selem_get_playback_switch(elem, 1, &sw2))) {
++			warn("snd_mixer_selem_get_playback_switch(): %d", err);
++		}
+ 
+ 	cleanup:
+ 		snd_mixer_free(mixer);
+ 		snd_mixer_detach(mixer, devname);
+ 		snd_mixer_close(mixer);
+ 
+-		return volume == -1 ? NULL : bprintf("%.0f", (volume-min)*100./(max-min));
++		return !(sw1 || sw2) ? "mute" : volume == -1 ? NULL : bprintf("%.0f", (volume-min)*100./(max-min));
+ 	}
+ #else
+ 	#include <sys/soundcard.h>
+-- 
+2.42.0
+

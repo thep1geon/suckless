@@ -1,0 +1,9 @@
+--- config.def.h
++++ config.def.h
+@@ -75,4 +84,6 @@ static const char unknown_str[] = "n/a";
+ static const struct arg args[] = {
+ 	/* function format          argument */
+ 	{ datetime, "%s",           "%F %T" },
++        { battery_notify, "",       "BAT0"}, /* There is nothing to print its just a notifications*/
++
+ };

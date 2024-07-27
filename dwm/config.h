@@ -58,6 +58,15 @@ static const char *colors[][3]      = {
     [SchemeSel]  = { col_bg5, col_aqua,  col_aqua  },
 };
 
+static const unsigned int baralpha = 0xb2; // 70% | 0xd0 defualt
+static const unsigned int borderalpha = OPAQUE;
+
+static const unsigned int alphas[][3]      = {
+    /*               fg         bg         border   */
+    [SchemeNorm] = { OPAQUE,   baralpha, borderalpha },
+    [SchemeSel] = { OPAQUE,   baralpha, borderalpha },
+};
+
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
@@ -215,11 +224,11 @@ static const Button buttons[] = {
 
 // Commands to be run when starting dwm
 static char* commands[] = {
+    "vol",
     "xset s 300",
     "xss-lock -- slock",
     "slstatus",
-    "feh --bg-fill /home/magic/Pictures/a1.png",
+    "feh --bg-fill /home/magic/Pictures/sushi.jpg",
     "picom -b",
     "pulseaudio --start", // Cause PulseAudio is kinda stupid
-    "twmnd",
 };

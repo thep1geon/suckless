@@ -9,11 +9,20 @@ static const char unknown_str[] = "n/a";
 /* maximum output string length */
 #define MAXLEN 2048
 
+/* battery levels to notify - add any levels you want to receive notification for (in percent) */
+const int notifiable_levels[] = {
+    20,
+    10,
+    5,
+};
+
 /*
  * function            description                     argument (example)
  *
  * battery_perc        battery percentage              battery name (BAT0)
  *                                                     NULL on OpenBSD/FreeBSD
+ * battery_notify      linux battery notifications     battery name (BAT0)
+ *                                                     OpenBSD/FreeBSD not supported
  * battery_remaining   battery remaining HH:MM         battery name (BAT0)
  *                                                     NULL on OpenBSD/FreeBSD
  * battery_state       battery charging state          battery name (BAT0)
@@ -63,11 +72,30 @@ static const char unknown_str[] = "n/a";
  * wifi_essid          WiFi ESSID                      interface name (wlan0)
  * wifi_perc           WiFi signal in percent          interface name (wlan0)
  */
+
 static const struct arg args[] = {
-	/* function format          argument */
-	{ datetime,      " %s ",            "%F %T" },
-    { battery_perc,  " Int: %s ",        "BAT0"    },
-    { battery_state, " %s ",            "BAT0"},
-    { battery_perc,  " Ext: %s ",        "BAT1"    },
-    { battery_state, " %s ",            "BAT1"},
+	/* function format              argument */
+	{ datetime,      " %s ",        "%F %T" },
+
+    { battery_perc,  " | I: %s ",   "BAT0"  },
+    { battery_state, "%s ",        "BAT0"  },
+    { battery_remaining, "%s",        "BAT0"  },
+    { battery_notify, "",       "BAT0"}, /* There is nothing to print its just a notifications*/
+    { battery_perc,  " E: %s ",     "BAT1"  },
+    { battery_state, "%s ",        "BAT1"  },
+    { battery_remaining, "%s",        "BAT1"  },
+    { battery_notify, "",       "BAT1"}, /* There is nothing to print its just a notifications*/
+
+    { cpu_perc,      " | CPU: %s%%",    NULL    },
+
+    { ram_perc,      " | RAM: %s%%",    NULL    },
+
+    { disk_perc,      " | /: %s%%",    "/"    },
+
+    // Volume
+    { vol_perc,      " | VOL: %s",    "Master"    },
+
+    { uptime,      " | UP: %s",    NULL    },
+
+    { wifi_perc,      " | WiFi: %s%%",    "wlp3s0"    },
 };
