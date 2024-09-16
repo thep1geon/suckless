@@ -11,11 +11,6 @@ static const char unknown_str[] = "n/a";
 
 /* battery levels to notify - add any levels you want to receive notification for (in percent) */
 const int notifiable_levels[] = {
-    100,
-    99,
-    98,
-    97,
-    50,
     20,
     10,
     5,
@@ -103,4 +98,6 @@ static const struct arg args[] = {
     { uptime,      " | UP: %s",    NULL    },
 
     { wifi_perc,      " | WiFi: %s%%",    "wlp3s0"    },
+
+    { run_command,      " | %s%%",    "light"    },
 };

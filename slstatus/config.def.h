@@ -98,4 +98,6 @@ static const struct arg args[] = {
     { uptime,      " | UP: %s",    NULL    },
 
     { wifi_perc,      " | WiFi: %s%%",    "wlp3s0"    },
+
+    { run_command,      " | %s%%",    "light"    },
 };

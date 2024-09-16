@@ -85,8 +85,7 @@
 
     for (i = 0; i < size; i++)
     {
-        if (notifiable_levels[i] != cap_perc)
-        continue;
+        if (notifiable_levels[i] != cap_perc) continue;
 
         if (notifiable_levels[i] != last_notified_level)
         {
@@ -150,10 +149,10 @@ battery_remaining(const char *bat)
         if (!pick(bat, POWER_SUPPLY_CURRENT, POWER_SUPPLY_POWER, path,
                   sizeof(path)) ||
             pscanf(path, "%ju", &current_now) < 0)
-        return NULL;
+            return NULL;
 
         if (current_now == 0)
-        return NULL;
+            return NULL;
 
         timeleft = (double)charge_now / (double)current_now;
         h = timeleft;

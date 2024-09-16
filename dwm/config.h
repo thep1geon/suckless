@@ -228,7 +228,7 @@ static char* commands[] = {
     "xset s 300",
     "xss-lock -- slock",
     "slstatus",
-    "feh --bg-fill /home/magic/Pictures/sushi.jpg",
+    "feh --bg-fill /home/magic/Pictures/gruvbox_spac.jpg",
     "picom -b",
     "pulseaudio --start", // Cause PulseAudio is kinda stupid
 };
