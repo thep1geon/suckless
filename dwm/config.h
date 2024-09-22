@@ -16,6 +16,8 @@ static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "caskaydia cove nfm:size=12" };
 static const char dmenufont[]       = "caskaydia cove nfm:size=12";
 
+static int show_all_tags            = 1;        /* show all tags, or only tags which windows open*/
+
 // Defaults
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
@@ -155,6 +157,7 @@ static const Key keys[] = {
     { MODKEY|ShiftMask,             XK_f,                     spawn,          {.v = firefoxcmd } },
     { MODKEY|ShiftMask,             XK_b,                     spawn,          {.v = bluetoothcmd } },
     { MODKEY,                       XK_b,                     togglebar,      {0} },
+    { MODKEY|ShiftMask,             XK_s,                     toggletags,     {0} },
     { MODKEY,                       XK_j,                     focusstack,     {.i = +1 } },
     { MODKEY,                       XK_k,                     focusstack,     {.i = -1 } },
     { MODKEY|ShiftMask,             XK_j,                     movestack,      {.i = +1} },
