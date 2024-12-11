@@ -26,6 +26,7 @@
 	ram_perc(const char *unused)
 	{
 		uintmax_t total, free, buffers, cached;
+        uintmax_t available;
 		int percent;
 
 		if (pscanf("/proc/meminfo",
@@ -34,13 +35,20 @@
 		           "MemAvailable: %ju kB\n"
 		           "Buffers: %ju kB\n"
 		           "Cached: %ju kB\n",
-		           &total, &free, &buffers, &buffers, &cached) != 5)
+		           &total, &free, &available, &buffers, &cached) != 5)
 			return NULL;
 
 		if (total == 0)
 			return NULL;
 
-		percent = 100 * ((total - free) - (buffers + cached)) / total;
+		// percent = 100 * ((total - free) - (buffers + cached)) / total;
+
+        // I'm gonna be so real, I have NO clue why they didn't just do this 
+        // in the beginning
+        //
+        // But you know. Suckless software, it only sucks less, not that it 
+        // doesn't suck at all
+        percent = 100 * (total-available) / total;
 		return bprintf("%d", percent);
 	}
 

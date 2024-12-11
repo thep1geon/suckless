@@ -4,7 +4,7 @@
 #endif
 
 /* appearance */
-static const unsigned int borderpx  = 1;        /* border pixel of windows */
+static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const unsigned int gappih    = 10;       /* horiz inner gap between windows */
 static const unsigned int gappiv    = 10;       /* vert inner gap between windows */
@@ -16,7 +16,7 @@ static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "caskaydia cove nfm:size=12" };
 static const char dmenufont[]       = "caskaydia cove nfm:size=12";
 
-static int show_all_tags            = 1;        /* show all tags, or only tags which windows open*/
+static int show_all_tags            = 0;        /* show all tags, or only tags which windows open*/
 
 // Defaults
 static const char col_gray1[]       = "#222222";
@@ -78,7 +78,8 @@ static const Rule rules[] = {
      *	WM_NAME(STRING) = title
     */
     /* class      instance    title       tags mask     isfloating   monitor */
-    { "Blueman", NULL,       NULL,       0,            1,           -1 },
+    { "Blueman",        NULL,       NULL,       0,            1,           -1 },
+    { "Thunar",         NULL,       NULL,       0,            1,           -1 },
     { "Gimp",            NULL,       NULL,       0,            1,           -1 },
     { "Firefox",         NULL,       NULL,       1 << 8,       0,           -1 },
 };
@@ -100,9 +101,11 @@ static const Layout layouts[] = {
 #include <X11/keysym.h>
 
 /* key definitions */
-#define MODKEY Mod4Mask // Window's key
+#define ALT Mod1Mask // Alt Key
+#define WIN Mod4Mask // Window's key
+#define MODKEY WIN
 #define TAGKEYS(KEY,TAG) \
-{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
+    { MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
     { MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
     { MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
     { MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
@@ -112,30 +115,35 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] =       { "dmenu_run", "-i", "-m", dmenumon, "-fn", dmenufont, "-nb", col_bg0, "-nf", col_fg, "-sb", col_aqua, "-sf", col_bg5, NULL };
-static const char *termcmd[]  =       { "kitty", NULL };
-static const char* wdtermcmd[] =      { "wdterm", NULL };
+static const char *dmenucmd[] =                 { "dmenu_run", "-i", "-m", dmenumon, "-fn", dmenufont, "-nb", col_bg0, "-nf", col_fg, "-sb", col_aqua, "-sf", col_bg5, NULL };
 
-static const char* powermenucmd[] =   { "/home/magic/suckless/dmenu/scripts/power.sh", NULL};
-static const char* firefoxcmd[] =     { "firefox", NULL};
+static const char *termcmd[]  =                 { "kitty", NULL };
+static const char* wdtermcmd[] =                { "wdterm", NULL };
 
-static const char* volmutecmd[] =     { "pactl", "set-sink-mute",   "@DEFAULT_SINK@", "toggle", NULL };
-static const char* volupcmd[] =       { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "+5%",    NULL };
-static const char* voldowncmd[] =     { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "-5%",    NULL };
+static const char* powermenucmd[] =             { "/home/magic/suckless/dmenu/scripts/power.sh", NULL};
 
-static const char* brightupcmd[] =    { "light", "-A", "5", NULL };
-static const char* brightdowncmd[] =  { "light", "-U", "5", NULL };
+static const char* firefoxcmd[] =               { "firefox", NULL};
 
-static const char* nextcmd[] =        { "playerctl", "next", NULL };
-static const char* prevcmd[] =        { "playerctl", "previous", NULL };
-static const char* toggleplaycmd[] =  { "playerctl", "play-pause", NULL };
+static const char* volmutecmd[] =               { "pactl", "set-sink-mute",   "@DEFAULT_SINK@", "toggle", NULL };
+static const char* volupcmd[] =                 { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "+5%",    NULL };
+static const char* voldowncmd[] =               { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "-5%",    NULL };
 
-static const char* screenshotcmd[] =  { "scrot", "-z", "-F", "/home/magic/Pictures/Screenshots/%b-%d-%H:%M.png", NULL };
+static const char* brightupcmd[] =              { "light", "-A", "5", NULL };
+static const char* brightdowncmd[] =            { "light", "-U", "5", NULL };
 
-static const char* bluetoothcmd[] =   { "blueman-manager", NULL };
+static const char* nextcmd[] =                  { "playerctl", "next", NULL };
+static const char* prevcmd[] =                  { "playerctl", "previous", NULL };
+static const char* toggleplaycmd[] =            { "playerctl", "play-pause", NULL };
 
-static const char* boomercmd[] =      { "boomer", NULL };
+static const char* screenshotcmd[] =            { "scrot", "-z", "-F", "/home/magic/Pictures/Screenshots/%b-%d-%H:%M.png", NULL };
 
+static const char* bluetoothcmd[] =             { "blueman-manager", NULL };
+
+static const char* boomercmd[] =                { "boomer", NULL };
+
+static const char* togglesecondscreencmd[] =    { "toggle-second-screen", NULL };
+
+// keymaps
 static const Key keys[] = {
     /* modifier                     key                       function        argument */
     { 0,                            XK_Print,                 spawn,          { .v = screenshotcmd} },
@@ -145,8 +153,12 @@ static const Key keys[] = {
     { 0,                            XF86XK_AudioRaiseVolume,  spawn,          {.v = volupcmd} },
     { 0,                            XF86XK_MonBrightnessDown, spawn,          {.v = brightdowncmd} },
     { 0,                            XF86XK_MonBrightnessUp,   spawn,          {.v = brightupcmd} },
+    { MODKEY,                       XK_plus,                  spawn,          {.v = volupcmd } },
+    { MODKEY,                       XK_minus,                 spawn,          {.v = voldowncmd } },
     { MODKEY,                       XK_bracketleft,           spawn,          {.v = prevcmd } },
     { MODKEY,                       XK_bracketright,          spawn,          {.v = nextcmd } },
+    { MODKEY,                       XK_Up,                    spawn,          {.v = volupcmd } },
+    { MODKEY,                       XK_Down,                  spawn,          {.v = voldowncmd } },
     { MODKEY,                       XK_Left,                  spawn,          {.v = prevcmd } },
     { MODKEY,                       XK_Right,                 spawn,          {.v = nextcmd } },
     { MODKEY,                       XK_space,                 spawn,          {.v = toggleplaycmd} },
@@ -156,6 +168,7 @@ static const Key keys[] = {
     { MODKEY,                       XK_p,                     spawn,          {.v = powermenucmd } },
     { MODKEY|ShiftMask,             XK_f,                     spawn,          {.v = firefoxcmd } },
     { MODKEY|ShiftMask,             XK_b,                     spawn,          {.v = bluetoothcmd } },
+    { MODKEY,                       XK_s,                     spawn,          {.v = togglesecondscreencmd } },
     { MODKEY,                       XK_b,                     togglebar,      {0} },
     { MODKEY|ShiftMask,             XK_s,                     toggletags,     {0} },
     { MODKEY,                       XK_j,                     focusstack,     {.i = +1 } },
@@ -166,18 +179,19 @@ static const Key keys[] = {
     { MODKEY|ShiftMask,             XK_d,                     incnmaster,     {.i = -1 } },
     { MODKEY,                       XK_h,                     setmfact,       {.f = -0.05} },
     { MODKEY,                       XK_l,                     setmfact,       {.f = +0.05} },
-    { MODKEY|ShiftMask,             XK_Return,                zoom,           {0} },
+    { MODKEY|ShiftMask|ALT,         XK_Return,                zoom,           {0} },
     { MODKEY,                       XK_Tab,                   view,           {0} },
     { MODKEY|ShiftMask,             XK_q,                     killclient,     {0} },
     { MODKEY,                       XK_t,                     setlayout,      {.v = &layouts[0]} },
     { MODKEY,                       XK_f,                     setlayout,      {.v = &layouts[1]} },
-    { MODKEY,                       XK_m,                     setlayout,      {.v = &layouts[2]} },
+    { MODKEY|ShiftMask,             XK_m,                     setlayout,      {.v = &layouts[2]} },
     { MODKEY|ControlMask,           XK_space,                 setlayout,      {0} },
     { MODKEY|ShiftMask,             XK_space,                 togglefloating, {0} },
     { MODKEY,                       XK_0,                     view,           {.ui = ~0 } },
     { MODKEY|ShiftMask,             XK_0,                     tag,            {.ui = ~0 } },
     { MODKEY,                       XK_comma,                 focusmon,       {.i = -1 } },
     { MODKEY,                       XK_period,                focusmon,       {.i = +1 } },
+    { MODKEY|ShiftMask,             XK_Tab,                   focusmon,       {.i = +1 } },
     { MODKEY|ShiftMask,             XK_comma,                 tagmon,         {.i = -1 } },
     { MODKEY|ShiftMask,             XK_period,                tagmon,         {.i = +1 } },
     { MODKEY|Mod1Mask,              XK_h,                     incrgaps,       {.i = +1 } },
@@ -226,12 +240,14 @@ static const Button buttons[] = {
 };
 
 // Commands to be run when starting dwm
+// I've modded my system so much it would be a nightmare to
+// have to reconfiure everything :/
 static char* commands[] = {
     "vol",
     "xset s 300",
     "xss-lock -- slock",
-    "slstatus",
-    "feh --bg-fill /home/magic/Pictures/gruvbox_spac.jpg",
+    "feh --bg-fill /home/magic/Pictures/a1.png",
     "picom -b",
     "pulseaudio --start", // Cause PulseAudio is kinda stupid
+    "slstatus",
 };
