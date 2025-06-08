@@ -5,7 +5,7 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "CaskaydiaCove NFM SemiLight:pixelsize=18";
+static char *font = "CaskaydiaCove NFM :pixelsize=18";
 static int borderpx = 2;
 
 /*
@@ -94,37 +94,37 @@ char *termname = "st-256color";
 unsigned int tabspaces = 4;
 
 /* bg opacity */
-float alpha = 0.75;
+float alpha = 0.70;
 
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
 	/* 8 normal colors */
-	"#343f44",
-	"#e67e80",
-	"#a7c080",
-	"#dbbc7f",
-	"#7fbbb3",
-	"#d699b6",
-	"#83c092",
-	"#859289",
+	"#665c54",
+	"#ea6962",
+	"#a9b665",
+	"#e78a4e",
+	"#7daea3",
+	"#d3869b",
+	"#89b482",
+	"#d4be98",
 
 	/* 8 bright colors */
-	"#868d80",
-	"#e67e80",
-	"#a7c080",
-	"#dbbc7f",
-	"#7fbbb3",
-	"#d699b6",
-	"#83c092",
-	"#9da9a0",
+	"#928374",
+	"#ea6962",
+	"#a9b665",
+	"#d8a657",
+	"#7daea3",
+	"#d3869b",
+	"#89b482",
+	"#d4be98",
 
 	[255] = 0,
 
 	/* more colors can be added after 255 to use with DefaultXX */
-	"#d3c6aa",
-	"#2e383c",
-	"#d3c6aa", /* default foreground colour */
-	"#272e33", /* default background colour */
+	"#d4be98", /* Cursor color */
+	"#ff0000", /* Reverse cursor color */
+	"#d4be98", /* Foreground color */
+	"#141617", /* Background color */
 };
 
 
@@ -132,10 +132,10 @@ static const char *colorname[] = {
  * Default colors (colorname index)
  * foreground, background, cursor, reverse cursor
  */
-unsigned int defaultfg = 258;
-unsigned int defaultbg = 259;
-unsigned int defaultcs = 256;
+unsigned int defaultcs         = 256;
 static unsigned int defaultrcs = 257;
+unsigned int defaultfg         = 258;
+unsigned int defaultbg         = 259;
 
 /*
  * Default shape of cursor
@@ -151,7 +151,7 @@ static unsigned int cursorshape = 6;
  */
 
 static unsigned int cols = 80;
-static unsigned int rows = 46;
+static unsigned int rows = 60;
 
 /*
  * Default colour and shape of the mouse cursor
@@ -187,6 +187,7 @@ static MouseShortcut mshortcuts[] = {
 };
 
 /* Internal keyboard shortcuts. */
+// Alt key
 #define MODKEY Mod1Mask
 #define TERMMOD (ControlMask|ShiftMask)
 

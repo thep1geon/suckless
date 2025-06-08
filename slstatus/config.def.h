@@ -11,6 +11,7 @@ static const char unknown_str[] = "n/a";
 
 /* battery levels to notify - add any levels you want to receive notification for (in percent) */
 const int notifiable_levels[] = {
+    25,
     20,
     10,
     5,
@@ -74,28 +75,21 @@ const int notifiable_levels[] = {
  */
 
 static const struct arg args[] = {
-	/* function format              argument */
-	{ datetime,      " %s ",        "%F %T" },
-
-    { battery_perc,  " | I: %s ",   "BAT0"  },
-    { battery_state, "%s ",        "BAT0"  },
-    { battery_remaining, "%s",        "BAT0"  },
-    { battery_notify, "",       "BAT0"}, /* There is nothing to print its just a notifications*/
-    { battery_perc,  " E: %s ",     "BAT1"  },
-    { battery_state, "%s ",        "BAT1"  },
-    { battery_remaining, "%s",        "BAT1"  },
-    { battery_notify, "",       "BAT1"}, /* There is nothing to print its just a notifications*/
-
-    { cpu_perc,      " | CPU: %s%%",    NULL    },
-
-    { ram_perc,      " | RAM: %s%%",    NULL    },
-
-    { disk_perc,      " | /: %s%%",    "/"    },
-
-    // Volume
-    { vol_perc,      " | VOL: %s",    "Master"    },
-
-    { uptime,      " | UP: %s",    NULL    },
-
-    { wifi_perc,      " | WiFi: %s%%",    "wlp3s0"    },
+    /* function format              argument */
+    { datetime,             "^c#89b482^| ^c#ea6962^ %s",       "%a, %b %d - %I:%M%p" }, // Date and time
+    { run_command,          "^c#89b482^ 󰝚 %s",      "~/suckless/scripts/status-playbackinfo.sh" }, // The currently playing media
+    { run_command,          "^c#d3869b^ %s",       "~/suckless/scripts/status-battery.sh BAT0"      }, // Internal battery info
+    { battery_remaining,    " %s",                   "BAT0"  },
+    { battery_notify,       "",                     "BAT0"      }, // Internal battery notification
+    { run_command,          " %s",                  "~/suckless/scripts/status-battery.sh BAT1"      }, // ^ for the external battery
+    { battery_remaining,    " %s",                   "BAT1"  },
+    { battery_notify,       "",                     "BAT1"      }, // ^
+    { cpu_perc,             "^c#d8a657^ 󰻠 %s%%",    NULL        }, // CPU usage percent
+    { ram_perc,             "^c#a9b665^  %s%%",    NULL        }, // RAM usage percent
+    { disk_perc,            "^c#89b482^ 󰋊 %s%%",    "/"         }, // Total disk usage
+    { vol_perc,             "^c#a9b665^  %s%%",    "Master"    }, // Volume of the current sink
+    { uptime,               "^c#7daea3^ 󰁝 %s",      NULL        }, // Total uptime of the system
+    { wifi_perc,            "^c#d3869b^ 󰖩 %s%%",    "wlp3s0"    }, // WiFi strength
+    { run_command,          "^c#7daea3^ 󱍖 %s%%",    "light"     }, // Laptop screen brightness
+    { run_command,          "^c#d8a657^ 󰚰 %s",      "~/suckless/scripts/status-updates.sh"    }, // Total number of updates for my packages
 };

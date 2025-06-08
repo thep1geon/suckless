@@ -6,13 +6,15 @@
 /* appearance */
 static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
-static const unsigned int gappih    = 10;       /* horiz inner gap between windows */
-static const unsigned int gappiv    = 10;       /* vert inner gap between windows */
-static const unsigned int gappoh    = 10;       /* horiz outer gap between windows and screen edge */
-static const unsigned int gappov    = 10;       /* vert outer gap between windows and screen edge */
+static const unsigned int gappih    = 5;       /* horiz inner gap between windows */
+static const unsigned int gappiv    = 5;       /* vert inner gap between windows */
+static const unsigned int gappoh    = 5;       /* horiz outer gap between windows and screen edge */
+static const unsigned int gappov    = 5;       /* vert outer gap between windows and screen edge */
 static const int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
+static const int vertpad            = 5;        /* vertical padding of bar */
+static const int sidepad            = 5;        /* horizontal padding of bar */
 static const char *fonts[]          = { "caskaydia cove nfm:size=12" };
 static const char dmenufont[]       = "caskaydia cove nfm:size=12";
 
@@ -42,9 +44,14 @@ static const char ef_col_bg5[]      = "#4f5b58";
 static const char ef_col_fg[]       = "#d3c6aa";
 
 // Gruvbox Material
-static const char col_purple[]      = "#D3869b";
 static const char col_status3[]     = "#504945";
+static const char col_purple[]      = "#D3869b";
 static const char col_aqua[]        = "#89b482";
+static const char col_red[]         = "#ea6962";
+static const char col_blue[]        = "#7daea3";
+static const char col_green[]       = "#a9b665";
+static const char col_orange[]      = "#e78a4e";
+static const char col_yellow[]      = "#d8a657";
 
 static const char col_bg0[]         = "#1d2021";
 static const char col_bg1[]         = "#282828";
@@ -55,18 +62,35 @@ static const char col_bg5[]         = "#504945";
 static const char col_fg[]          = "#d4be98";
 
 static const char *colors[][3]      = {
-    /*               fg         bg         border   */
-    [SchemeNorm] = { col_fg, col_bg0, col_bg1 },
-    [SchemeSel]  = { col_bg5, col_aqua,  col_aqua  },
+    // fg            bg          border
+    { col_blue,     col_bg0,    col_blue },  // Tag 1
+    { col_purple,   col_bg0,    col_purple },  // Tag 2
+    { col_aqua,     col_bg0,    col_aqua },  // Tag 3
+    { col_red,      col_bg0,    col_red },  // Tag 4
+    { col_green ,   col_bg0,    col_green },  // Tag 5
+    { col_orange,   col_bg0,    col_orange },  // Tag 6
+    { col_yellow,   col_bg0,    col_yellow },  // Tag 7
+    { col_fg,       col_bg0,    col_bg0 },  // SchemeNorm
+    { col_aqua,     col_bg0,    col_aqua },  // SchemeSel
 };
+
+static const unsigned int SchemeNorm = LENGTH(colors) - 2;
+static const unsigned int SchemeSel = LENGTH(colors) - 1;
 
 static const unsigned int baralpha = 0xb2; // 70% | 0xd0 defualt
 static const unsigned int borderalpha = OPAQUE;
 
 static const unsigned int alphas[][3]      = {
-    /*               fg         bg         border   */
-    [SchemeNorm] = { OPAQUE,   baralpha, borderalpha },
-    [SchemeSel] = { OPAQUE,   baralpha, borderalpha },
+    // fg        bg        border
+    { OPAQUE,   baralpha, borderalpha }, // Tag 1
+    { OPAQUE,   baralpha, borderalpha }, // Tag 2
+    { OPAQUE,   baralpha, borderalpha }, // Tag 3
+    { OPAQUE,   baralpha, borderalpha }, // Tag 4
+    { OPAQUE,   baralpha, borderalpha }, // Tag 5
+    { OPAQUE,   baralpha, borderalpha }, // Tag 6
+    { OPAQUE,   baralpha, borderalpha }, // Tag 7
+    { OPAQUE,   baralpha, borderalpha }, // SchemeNorm
+    { OPAQUE,   baralpha, borderalpha }, // SchemeSel
 };
 
 /* tagging */
@@ -115,12 +139,14 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] =                 { "dmenu_run", "-i", "-m", dmenumon, "-fn", dmenufont, "-nb", col_bg0, "-nf", col_fg, "-sb", col_aqua, "-sf", col_bg5, NULL };
+static const char *dmenucmd[] =                 { "dmenu_run", "-i", "-m", dmenumon, "-fn", dmenufont, NULL };
 
 static const char *termcmd[]  =                 { "kitty", NULL };
 static const char* wdtermcmd[] =                { "wdterm", NULL };
 
-static const char* powermenucmd[] =             { "/home/magic/suckless/dmenu/scripts/power.sh", NULL};
+static const char* sysmenucmd[] =               { "/home/magic/suckless/scripts/sys.sh", NULL};
+static const char* whatsplayingcmd[] =          { "/home/magic/suckless/scripts/whatsplaying.sh", NULL};
+static const char* batteryremainingcmd[] =      { "/home/magic/suckless/scripts/battery-remaining.sh", NULL};
 
 static const char* firefoxcmd[] =               { "firefox", NULL};
 
@@ -135,7 +161,7 @@ static const char* nextcmd[] =                  { "playerctl", "next", NULL };
 static const char* prevcmd[] =                  { "playerctl", "previous", NULL };
 static const char* toggleplaycmd[] =            { "playerctl", "play-pause", NULL };
 
-static const char* screenshotcmd[] =            { "scrot", "-z", "-F", "/home/magic/Pictures/Screenshots/%b-%d-%H:%M.png", NULL };
+static const char* screenshotcmd[] =            { "scrot", "-s", "-z", "-F", "/home/magic/Pictures/Screenshots/%b-%d-%Y-%H:%M.png", NULL };
 
 static const char* bluetoothcmd[] =             { "blueman-manager", NULL };
 
@@ -165,10 +191,12 @@ static const Key keys[] = {
     { MODKEY,                       XK_d,                     spawn,          {.v = dmenucmd } },
     { MODKEY,                       XK_Return,                spawn,          {.v = termcmd } },
     { MODKEY|ShiftMask,             XK_Return,                spawn,          {.v = wdtermcmd } },
-    { MODKEY,                       XK_p,                     spawn,          {.v = powermenucmd } },
+    { MODKEY,                       XK_p,                     spawn,          {.v = sysmenucmd } },
     { MODKEY|ShiftMask,             XK_f,                     spawn,          {.v = firefoxcmd } },
     { MODKEY|ShiftMask,             XK_b,                     spawn,          {.v = bluetoothcmd } },
     { MODKEY,                       XK_s,                     spawn,          {.v = togglesecondscreencmd } },
+    { MODKEY,                       XK_w,                     spawn,          {.v = whatsplayingcmd } },
+    { MODKEY,                       XK_r,                     spawn,          {.v = batteryremainingcmd } },
     { MODKEY,                       XK_b,                     togglebar,      {0} },
     { MODKEY|ShiftMask,             XK_s,                     toggletags,     {0} },
     { MODKEY,                       XK_j,                     focusstack,     {.i = +1 } },
@@ -239,15 +267,12 @@ static const Button buttons[] = {
     { ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
 
-// Commands to be run when starting dwm
-// I've modded my system so much it would be a nightmare to
-// have to reconfiure everything :/
-static char* commands[] = {
-    "vol",
+static const char* const commands[] = {
     "xset s 300",
+    "vol",
     "xss-lock -- slock",
-    "feh --bg-fill /home/magic/Pictures/a1.png",
+    "feh --bg-fill /home/magic/Pictures/ign-waifu.png",
     "picom -b",
-    "pulseaudio --start", // Cause PulseAudio is kinda stupid
-    "slstatus",
+    "pulseaudio --start",
+    "light",
 };
