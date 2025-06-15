@@ -139,7 +139,7 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] =                 { "dmenu_run", "-i", "-m", dmenumon, "-fn", dmenufont, NULL };
+static const char *dmenucmd[] =                 { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, NULL };
 
 static const char *termcmd[]  =                 { "kitty", NULL };
 static const char* wdtermcmd[] =                { "wdterm", NULL };
@@ -167,7 +167,7 @@ static const char* bluetoothcmd[] =             { "blueman-manager", NULL };
 
 static const char* boomercmd[] =                { "boomer", NULL };
 
-static const char* togglesecondscreencmd[] =    { "toggle-second-screen", NULL };
+static const char* displayswitchercmd[] =       { "/home/magic/suckless/scripts/displayswitcher.sh", NULL };
 
 // keymaps
 static const Key keys[] = {
@@ -194,7 +194,7 @@ static const Key keys[] = {
     { MODKEY,                       XK_p,                     spawn,          {.v = sysmenucmd } },
     { MODKEY|ShiftMask,             XK_f,                     spawn,          {.v = firefoxcmd } },
     { MODKEY|ShiftMask,             XK_b,                     spawn,          {.v = bluetoothcmd } },
-    { MODKEY,                       XK_s,                     spawn,          {.v = togglesecondscreencmd } },
+    { MODKEY,                       XK_s,                     spawn,          {.v = displayswitchercmd } },
     { MODKEY,                       XK_w,                     spawn,          {.v = whatsplayingcmd } },
     { MODKEY,                       XK_r,                     spawn,          {.v = batteryremainingcmd } },
     { MODKEY,                       XK_b,                     togglebar,      {0} },
