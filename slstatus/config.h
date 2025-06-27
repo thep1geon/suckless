@@ -87,7 +87,7 @@ static const struct arg args[] = {
     { cpu_perc,             "^c#d8a657^ 󰻠 %s%%",    NULL        }, // CPU usage percent
     { ram_perc,             "^c#a9b665^  %s%%",    NULL        }, // RAM usage percent
     { disk_perc,            "^c#89b482^ 󰋊 %s%%",    "/"         }, // Total disk usage
-    { vol_perc,             "^c#a9b665^  %s%%",    "Master"    }, // Volume of the current sink
+    { vol_perc,             "^c#ea6962^  %s",      "Master"    }, // Volume of the current sink
     { uptime,               "^c#7daea3^ 󰁝 %s",      NULL        }, // Total uptime of the system
     { wifi_perc,            "^c#d3869b^ 󰖩 %s%%",    "wlp3s0"    }, // WiFi strength
     { run_command,          "^c#7daea3^ 󱍖 %s%%",    "light"     }, // Laptop screen brightness

@@ -20,17 +20,17 @@ static const char dmenufont[]       = "caskaydia cove nfm:size=12";
 
 static int show_all_tags            = 0;        /* show all tags, or only tags which windows open*/
 
-// Defaults
+/* Defaults */
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#005577";
 
-// catppuccin-mocha
+/* Catppuccin-Mocha */
 static const char col_mauve[]       = "#cba6f7";
 
-// everforest
+/* Everforest */
 static const char ef_col_purple[]   = "#D699B6";
 static const char ef_col_status3[]  = "#E67E80";
 static const char ef_col_aqua[]     = "#83C092";
@@ -43,7 +43,7 @@ static const char ef_col_bg4[]      = "#495156";
 static const char ef_col_bg5[]      = "#4f5b58";
 static const char ef_col_fg[]       = "#d3c6aa";
 
-// Gruvbox Material
+/* Gruvbox-Material */
 static const char col_status3[]     = "#504945";
 static const char col_purple[]      = "#D3869b";
 static const char col_aqua[]        = "#89b482";
@@ -62,10 +62,10 @@ static const char col_bg5[]         = "#504945";
 static const char col_fg[]          = "#d4be98";
 
 static const char *colors[][3]      = {
-    // fg            bg          border
-    { col_blue,     col_bg0,    col_blue },  // Tag 1
-    { col_purple,   col_bg0,    col_purple },  // Tag 2
-    { col_aqua,     col_bg0,    col_aqua },  // Tag 3
+    /* fg            bg          border */
+    { col_blue,     col_bg0,    col_blue },  /* Tag 1 */
+    { col_purple,   col_bg0,    col_purple },/* Tag 2 */
+    { col_aqua,     col_bg0,    col_aqua },  /* Tag 3 */
     { col_red,      col_bg0,    col_red },  // Tag 4
     { col_green ,   col_bg0,    col_green },  // Tag 5
     { col_orange,   col_bg0,    col_orange },  // Tag 6
@@ -139,40 +139,39 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] =                 { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, NULL };
+static const char *dmenucmd[] =                 { "dmenu_run", "-c", "-R", "-m", dmenumon, "-fn", dmenufont, "-l", "15", "-p", "Application Runner:", NULL };
 
-static const char *termcmd[]  =                 { "kitty", NULL };
+static const char *termcmd[]  =                 { "st", NULL };
 static const char* wdtermcmd[] =                { "wdterm", NULL };
-
-static const char* sysmenucmd[] =               { "/home/magic/suckless/scripts/sys.sh", NULL};
-static const char* whatsplayingcmd[] =          { "/home/magic/suckless/scripts/whatsplaying.sh", NULL};
-static const char* batteryremainingcmd[] =      { "/home/magic/suckless/scripts/battery-remaining.sh", NULL};
 
 static const char* firefoxcmd[] =               { "firefox", NULL};
 
-static const char* volmutecmd[] =               { "pactl", "set-sink-mute",   "@DEFAULT_SINK@", "toggle", NULL };
-static const char* volupcmd[] =                 { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "+5%",    NULL };
-static const char* voldowncmd[] =               { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "-5%",    NULL };
+static const char* volmutecmd[] =               { "/home/magic/suckless/scripts/volume.sh", "mute", NULL };
+static const char* volupcmd[] =                 { "/home/magic/suckless/scripts/volume.sh", "up", NULL };
+static const char* voldowncmd[] =               { "/home/magic/suckless/scripts/volume.sh", "down", NULL };
 
-static const char* brightupcmd[] =              { "light", "-A", "5", NULL };
-static const char* brightdowncmd[] =            { "light", "-U", "5", NULL };
+static const char* brightupcmd[] =              { "/home/magic/suckless/scripts/brightness.sh", "up", NULL};
+static const char* brightdowncmd[] =              { "/home/magic/suckless/scripts/brightness.sh", "down", NULL};
 
 static const char* nextcmd[] =                  { "playerctl", "next", NULL };
 static const char* prevcmd[] =                  { "playerctl", "previous", NULL };
 static const char* toggleplaycmd[] =            { "playerctl", "play-pause", NULL };
 
-static const char* screenshotcmd[] =            { "scrot", "-s", "-z", "-F", "/home/magic/Pictures/Screenshots/%b-%d-%Y-%H:%M.png", NULL };
-
 static const char* bluetoothcmd[] =             { "blueman-manager", NULL };
 
 static const char* boomercmd[] =                { "boomer", NULL };
 
+static const char* sysmenucmd[] =               { "/home/magic/suckless/scripts/sys.sh", NULL};
+static const char* whatsplayingcmd[] =          { "/home/magic/suckless/scripts/whatsplaying.sh", NULL};
+static const char* batteryremainingcmd[] =      { "/home/magic/suckless/scripts/battery-remaining.sh", NULL};
+static const char* screenshotcmd[] =            { "/home/magic/suckless/scripts/screenshot.sh", NULL };
 static const char* displayswitchercmd[] =       { "/home/magic/suckless/scripts/displayswitcher.sh", NULL };
+static const char* wifimenucmd[] =              { "/home/magic/suckless/scripts/wifimenu.sh", NULL };
 
 // keymaps
 static const Key keys[] = {
     /* modifier                     key                       function        argument */
-    { 0,                            XK_Print,                 spawn,          { .v = screenshotcmd} },
+    { MODKEY|ControlMask,           XK_s,                     spawn,          { .v = screenshotcmd} },
     { MODKEY,                       XK_Print,                 spawn,          { .v = boomercmd} },
     { 0,                            XF86XK_AudioMute,         spawn,          {.v = volmutecmd} },
     { 0,                            XF86XK_AudioLowerVolume,  spawn,          {.v = voldowncmd} },
@@ -196,6 +195,7 @@ static const Key keys[] = {
     { MODKEY|ShiftMask,             XK_b,                     spawn,          {.v = bluetoothcmd } },
     { MODKEY,                       XK_s,                     spawn,          {.v = displayswitchercmd } },
     { MODKEY,                       XK_w,                     spawn,          {.v = whatsplayingcmd } },
+    { MODKEY|ShiftMask,             XK_w,                     spawn,          {.v = wifimenucmd } },
     { MODKEY,                       XK_r,                     spawn,          {.v = batteryremainingcmd } },
     { MODKEY,                       XK_b,                     togglebar,      {0} },
     { MODKEY|ShiftMask,             XK_s,                     toggletags,     {0} },
@@ -271,7 +271,7 @@ static const char* const commands[] = {
     "xset s 300",
     "vol",
     "xss-lock -- slock",
-    "feh --bg-fill /home/magic/Pictures/ign-waifu.png",
+    "feh --bg-fill /home/magic/Pictures/3.png",
     "picom -b",
     "pulseaudio --start",
     "light",

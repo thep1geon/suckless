@@ -119,6 +119,7 @@ struct Monitor {
 	float mfact;
 	int nmaster;
 	int num;
+    int monnum;
 	int by;               /* bar geometry */
 	int mx, my, mw, mh;   /* screen size */
 	int wx, wy, ww, wh;   /* window area  */
@@ -224,6 +225,7 @@ static void setmfact(const Arg *arg);
 static void setup(void);
 static void seturgent(Client *c, int urg);
 static void showhide(Client *c);
+static void sighandler(int sig);
 static void spawn(const Arg *arg);
 static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
@@ -259,6 +261,8 @@ static void zoom(const Arg *arg);
 static const char broken[] = "broken";
 static char stext[1024];
 static int screen;
+static int monnum_counter = 0;
+static int selmonnum = 0;
 static int sw, sh;           /* X display screen geometry width, height */
 static int bh;               /* bar height */
 static int enablegaps = 1;   /* used to enable gaps :) */
@@ -695,6 +699,7 @@ createmon(void)
 	m->gappiv = gappiv;
 	m->gappoh = gappoh;
 	m->gappov = gappov;
+    m->monnum = monnum_counter++;
 	m->lt[0] = &layouts[0];
 	m->lt[1] = &layouts[1 % LENGTH(layouts)];
 	strncpy(m->ltsymbol, layouts[0].symbol, sizeof m->ltsymbol);
@@ -1032,8 +1037,10 @@ focusmon(const Arg *arg)
 		return;
 	if ((m = dirtomon(arg->i)) == selmon)
 		return;
+
 	unfocus(selmon->sel, 0);
 	selmon = m;
+    selmonnum = selmon->monnum;
 	focus(NULL);
 }
 
@@ -1869,8 +1876,9 @@ setup(void)
 	/* do not transform children into zombies when they terminate */
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_NOCLDSTOP | SA_NOCLDWAIT | SA_RESTART;
-	sa.sa_handler = SIG_IGN;
+	sa.sa_handler = sighandler;
 	sigaction(SIGCHLD, &sa, NULL);
+    sigaction(SIGUSR1, &sa, NULL);
 
 	/* clean up any zombies (inherited from .xinitrc etc) immediately */
 	while (waitpid(-1, NULL, WNOHANG) > 0);
@@ -1970,6 +1978,24 @@ showhide(Client *c)
 		showhide(c->snext);
 		XMoveWindow(dpy, c->win, WIDTH(c) * -2, c->y);
 	}
+}
+
+void
+sighandler(int sig) {
+    FILE* file;
+    if (sig != SIGUSR1) return; /* Return early, its not the signal we want to catch */
+
+    file = fopen("/home/magic/suckless/dwm/mon", "w");
+    if (!file) {
+        perror("sighandler file failed");
+        return;
+    }
+
+    fprintf(file, "%d", selmon->monnum);
+
+    fclose(file);
+
+    return;
 }
 
 void

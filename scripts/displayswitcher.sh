@@ -1,6 +1,6 @@
 #!/bin/env bash
 
-case "$(printf "Laptop\nDual Monitor\nCancel" | dmenu -l 3)" in
+case "$(echo -e "Laptop\nDual Monitor\nCancel" | dmenu -c -R -p "Display Switcher:")" in
     "Dual Monitor")
         xrandr --output HDMI-2 --auto --rotate normal --left-of eDP-1
         ~/.fehbg

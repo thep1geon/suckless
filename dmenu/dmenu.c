@@ -30,7 +30,7 @@
 #define OPAQUE                0xffu
 
 /* enums */
-enum { SchemeNorm, SchemeSel, SchemeNormHighlight, SchemeSelHighlight, SchemeBorder,
+enum { SchemeNorm, SchemeSel, SchemeNormHighlight, SchemeSelHighlight, SchemeBorder, SchemePrompt, SchemeInput,
        SchemeOut, SchemeLast }; /* color schemes */
 
 struct item {
@@ -44,7 +44,7 @@ struct item {
 static char text[BUFSIZ] = "";
 static char *embed;
 static int bh, mw, mh;
-static int inputw = 0, promptw;
+static int inputw = 0, promptw, passwd = 0;
 static int lrpad; /* sum of left and right padding */
 static size_t cursor;
 static struct item *items = NULL;
@@ -211,19 +211,26 @@ drawmenu(void)
 {
 	unsigned int curpos;
 	struct item *item;
-	int x = 0, y = 0, w;
+	int x = 0, y = 0, w, prompt_off = 0;
+	char *censort;
 
 	drw_setscheme(drw, scheme[SchemeNorm]);
 	drw_rect(drw, 0, 0, mw, mh, 1, 1);
 
 	if (prompt && *prompt) {
-		drw_setscheme(drw, scheme[SchemeSel]);
+		drw_setscheme(drw, scheme[SchemePrompt]);
 		x = drw_text(drw, x, 0, promptw, bh, lrpad / 2, prompt, 0);
+        prompt_off = x;
 	}
 	/* draw input field */
 	w = (lines > 0 || !matches) ? mw - x : inputw;
-	drw_setscheme(drw, scheme[SchemeNorm]);
-	drw_text(drw, x, 0, w, bh, lrpad / 2, text, 0);
+	drw_setscheme(drw, scheme[SchemeInput]);
+	if (passwd) {
+        censort = ecalloc(1, sizeof(text));
+		memset(censort, passwordch, strlen(text));
+		drw_text(drw, x, 0, w, bh, lrpad / 2, censort, 0);
+		free(censort);
+	} else drw_text(drw, x, 0, w, bh, lrpad / 2, text, 0);
 
 	curpos = TEXTW(text) - TEXTW(&text[cursor]);
 	if ((curpos += lrpad / 2 - 1) < w) {
@@ -231,10 +238,11 @@ drawmenu(void)
 		drw_rect(drw, x + curpos, 2, 2, bh - 4, 1, 0);
 	}
 
+    drw_setscheme(drw, scheme[SchemeNorm]);
 	if (lines > 0) {
 		/* draw vertical list */
 		for (item = curr; item != next; item = item->right)
-			drawitem(item, x, y += bh, mw - x);
+			drawitem(item, x - prompt_off, y+=bh, mw - x);
 	} else if (matches) {
 		/* draw horizontal list */
 		x += inputw;
@@ -373,10 +381,6 @@ fuzzymatch(void)
 static void
 match(void)
 {
-	if (fuzzy) {
-		fuzzymatch();
-		return;
-	}
 	static char **tokv = NULL;
 	static int tokn = 0;
 
@@ -384,6 +388,13 @@ match(void)
 	int i, tokc = 0;
 	size_t len, textsize;
 	struct item *item, *lprefix, *lsubstr, *prefixend, *substrend;
+
+    if (passwd) return;
+
+	if (fuzzy) {
+		fuzzymatch();
+		return;
+	}
 
 	strcpy(buf, text);
 	/* separate input text into tokens to be matched individually */
@@ -797,6 +808,7 @@ setup(void)
 
 	/* calculate menu geometry */
 	bh = drw->fonts->h + 2;
+    if (passwd) inputw = lines = 0;
 	lines = MAX(lines, 0);
 	mh = (lines + 1) * bh;
 	promptw = (prompt && *prompt) ? TEXTW(prompt) - lrpad / 4 : 0;
@@ -828,8 +840,15 @@ setup(void)
 
 		if (centered) {
 			mw = MIN(MAX(max_textw() + promptw, min_width), info[i].width);
-			x = info[i].x_org + ((info[i].width  - mw) / 2);
-			y = info[i].y_org + ((info[i].height - mh) / menu_height_ratio);
+            x = info[i].x_org;
+			y = info[i].y_org + (info[i].height - mh) / 2;
+            if (right) {
+                x += (info[i].width  - mw) - gap;
+            } else if (left) {
+                x += gap;
+            } else {
+                x += ((info[i].width  - mw) / 2);
+            }
 		} else {
 			x = info[i].x_org;
 			y = info[i].y_org + (topbar ? 0 : info[i].height - mh);
@@ -846,15 +865,23 @@ setup(void)
 
 		if (centered) {
 			mw = MIN(MAX(max_textw() + promptw, min_width), wa.width);
-			x = (wa.width  - mw) / 2;
+			x = (wa.width  - mw);
 			y = (wa.height - mh) / 2;
+
+            if (right) {
+                x -= gap;
+            } else if (left) {
+                x = gap;
+            } else {
+                x /= 2;
+            }
 		} else {
 			x = 0;
 			y = topbar ? 0 : wa.height - mh;
 			mw = wa.width;
 		}
 	}
-	promptw = (prompt && *prompt) ? TEXTW(prompt) - lrpad / 4 : 0;
+	// promptw = (prompt && *prompt) ? TEXTW(prompt) - lrpad / 4 : 0;
 	inputw = mw / 3; /* input width: ~33% of monitor width */
 	match();
 
@@ -902,9 +929,10 @@ setup(void)
 static void
 usage(void)
 {
-	die("usage: dmenu [-bFfiv] [-l lines] [-p prompt] [-fn font] [-m monitor]\n"
+	die("usage: dmenu [-bFfivPLR] [-l lines] [-p prompt] [-fn font] [-m monitor]\n"
  	    "             [-nb color] [-nf color] [-sb color] [-sf color]\n"
- 	    "             [-nhb color] [-nhf color] [-shb color] [-shf color] [-w windowid]");
+ 	    "             [-nhb color] [-nhf color] [-shb color] [-shf color] [-w windowid]\n"
+        "             [-bw border_width] [-W min_width]");
 }
 
 int
@@ -929,7 +957,13 @@ main(int argc, char *argv[])
  		else if (!strcmp(argv[i], "-s")) { /* case-sensitive item matching */
  			fstrncmp = strncmp;
  			fstrstr = strstr;
-		} else if (i + 1 == argc)
+        } else if (!strcmp(argv[i], "-P")) { /* is the input a password */
+        	passwd = 1;
+        } else if (!strcmp(argv[i], "-L")) { /* appears on the left of the screen */
+        	left = 1;
+        } else if (!strcmp(argv[i], "-R")) { /* appears on the right of the screen */
+        	right = 1;
+        } else if (i + 1 == argc)
 			usage();
 		/* these options take one argument */
 		else if (!strcmp(argv[i], "-l"))   /* number of lines in vertical list */
@@ -958,6 +992,8 @@ main(int argc, char *argv[])
 			colors[SchemeSelHighlight][ColFg] = argv[++i];
 		else if (!strcmp(argv[i], "-w"))   /* embedding window id */
 			embed = argv[++i];
+		else if (!strcmp(argv[i], "-W"))   /* Setting the minimum width */
+			min_width = atoi(argv[++i]);
 		else if (!strcmp(argv[i], "-bw"))
 			border_width = atoi(argv[++i]); /* border width */
 		else

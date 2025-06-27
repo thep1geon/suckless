@@ -180,7 +180,7 @@
 			}
 		}
 
-		return bprintf("%d", value);
+		return bprintf("%d%%", value);
 	}
 #elif defined(ALSA)
 	#include <alsa/asoundlib.h>
@@ -241,7 +241,7 @@
 		snd_mixer_detach(mixer, devname);
 		snd_mixer_close(mixer);
 
-		return !(sw1 || sw2) ? "mute" : volume == -1 ? NULL : bprintf("%.0f", (volume-min)*100./(max-min));
+		return !(sw1 || sw2) ? "mute" : volume == -1 ? NULL : bprintf("%.0f%%", (volume-min)*100./(max-min));
 	}
 #else
 	#include <sys/soundcard.h>
@@ -275,6 +275,6 @@
 
 		close(afd);
 
-		return bprintf("%d", v & 0xff);
+		return bprintf("%d%%", v & 0xff);
 	}
 #endif

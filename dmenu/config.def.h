@@ -3,7 +3,11 @@
 
 static int topbar = 1;                      /* -b  option; if 0, dmenu appears at bottom     */
 static int fuzzy  = 1;                      /* -F  option; if 0, dmenu doesn't use fuzzy matching */
-static int centered = 1;                    /* -c option; centers dmenu on screen */
+static int centered = 0;                    /* -c option; centers dmenu on screen */
+static int left = 0;                        /* -L option; postions dmenu on the left side of the screen. Requires dmenu to be centered*/
+static int right = 0;                        /* -R option; postions dmenu on the left side of the screen. Requires dmenu to be centered*/
+static int gap = 8;                         /* The number of pixels from the side of the screen when either on the left or right */
+static char passwordch = '*';               /* The character to be used in place of the text when password is enabled */
 static int min_width = 50;                    /* minimum width when centered */
 static const float menu_height_ratio = 4.0f;  /* This is the ratio used in the original calculation */
 static const unsigned int alpha = 0xb2;     /* 70% Amount of opacity. 0xff is opaque             */
@@ -55,8 +59,10 @@ static const char *colors[][2]      = {
 	[SchemeSel]  = { col_aqua, col_bg0 },
 	[SchemeOut]  = { "#000000", "#00ffff" },
  	[SchemeSelHighlight] = { col_purple, col_bg0 },
- 	[SchemeNormHighlight] = { col_purple, col_bg0 },
+ 	[SchemeNormHighlight] = { col_blue, col_bg0 },
     [SchemeBorder] = { col_aqua, col_aqua },
+    [SchemeInput] = { col_aqua, col_bg0 },
+    [SchemePrompt] = { col_bg0, col_aqua },
 };
 
 static const unsigned int alphas[SchemeLast][2] = {
@@ -66,6 +72,8 @@ static const unsigned int alphas[SchemeLast][2] = {
 	[SchemeSelHighlight] = { OPAQUE, alpha },
 	[SchemeNormHighlight] = { OPAQUE, alpha },
 	[SchemeBorder] = { OPAQUE, alpha },
+	[SchemeInput] = { OPAQUE, alpha },
+	[SchemePrompt] = { OPAQUE, alpha },
 };
 /* -l option; if nonzero, dmenu uses vertical list with given number of lines */
 static unsigned int lines      = 5;
