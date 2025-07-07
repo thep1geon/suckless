@@ -149,6 +149,8 @@ static unsigned int defaultrcs = 257;
 unsigned int defaultfg         = 258;
 unsigned int defaultbg         = 259;
 
+// #include "/home/magic/.cache/wal/colors-wal-st.h"
+
 /*
 * https://invisible-island.net/xterm/ctlseqs/ctlseqs.html#h4-Functions-using-CSI-_-ordered-by-the-final-character-lparen-s-rparen:CSI-Ps-SP-q.1D81
 * Default style of cursor
@@ -162,7 +164,7 @@ unsigned int defaultbg         = 259;
 * 7: blinking st cursor
 * 8: steady st cursor
   */
-static unsigned int cursorstyle = 5;
+static unsigned int cursorstyle = 1;
 static Rune stcursor = 0x2603; /* snowman ("☃") */
 
 /*
@@ -211,6 +213,8 @@ static MouseShortcut mshortcuts[] = {
 // Alt key
 #define MODKEY Mod1Mask
 #define TERMMOD (ControlMask|ShiftMask)
+
+#define ACMPL_MOD (ControlMask|Mod1Mask)
 
 static Shortcut shortcuts[] = {
 	/* mask                 keysym          function        argument */

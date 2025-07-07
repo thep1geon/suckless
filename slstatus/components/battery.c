@@ -123,7 +123,7 @@ battery_state(const char *bat)
 
     for (i = 0; i < LEN(map); i++)
         if (!strcmp(map[i].state, state))
-    break;
+            break;
 
     return (i == LEN(map)) ? "?" : map[i].symbol;
 }

@@ -45,7 +45,7 @@ static const char ef_col_fg[]       = "#d3c6aa";
 
 /* Gruvbox-Material */
 static const char col_status3[]     = "#504945";
-static const char col_purple[]      = "#D3869b";
+static const char col_purple[]      = "#d3869b";
 static const char col_aqua[]        = "#89b482";
 static const char col_red[]         = "#ea6962";
 static const char col_blue[]        = "#7daea3";
@@ -70,9 +70,13 @@ static const char *colors[][3]      = {
     { col_green ,   col_bg0,    col_green },  // Tag 5
     { col_orange,   col_bg0,    col_orange },  // Tag 6
     { col_yellow,   col_bg0,    col_yellow },  // Tag 7
+    { col_blue,     col_bg0,    col_red },  // Tag 8
+    { col_purple,   col_bg0,    col_yellow },  // Tag 9
     { col_fg,       col_bg0,    col_bg0 },  // SchemeNorm
     { col_aqua,     col_bg0,    col_aqua },  // SchemeSel
 };
+
+// #include "/home/magic/.cache/wal/colors-wal-dwm.h"
 
 static const unsigned int SchemeNorm = LENGTH(colors) - 2;
 static const unsigned int SchemeSel = LENGTH(colors) - 1;
@@ -89,6 +93,8 @@ static const unsigned int alphas[][3]      = {
     { OPAQUE,   baralpha, borderalpha }, // Tag 5
     { OPAQUE,   baralpha, borderalpha }, // Tag 6
     { OPAQUE,   baralpha, borderalpha }, // Tag 7
+    { OPAQUE,   baralpha, borderalpha }, // Tag 8
+    { OPAQUE,   baralpha, borderalpha }, // Tag 9
     { OPAQUE,   baralpha, borderalpha }, // SchemeNorm
     { OPAQUE,   baralpha, borderalpha }, // SchemeSel
 };
@@ -142,7 +148,6 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] =                 { "dmenu_run", "-c", "-R", "-m", dmenumon, "-fn", dmenufont, "-l", "15", "-p", "Application Runner:", NULL };
 
 static const char *termcmd[]  =                 { "st", NULL };
-static const char* wdtermcmd[] =                { "wdterm", NULL };
 
 static const char* firefoxcmd[] =               { "firefox", NULL};
 
@@ -167,6 +172,9 @@ static const char* batteryremainingcmd[] =      { "/home/magic/suckless/scripts/
 static const char* screenshotcmd[] =            { "/home/magic/suckless/scripts/screenshot.sh", NULL };
 static const char* displayswitchercmd[] =       { "/home/magic/suckless/scripts/displayswitcher.sh", NULL };
 static const char* wifimenucmd[] =              { "/home/magic/suckless/scripts/wifimenu.sh", NULL };
+static const char* definecmd[] =                { "/home/magic/suckless/scripts/define.sh", NULL };
+static const char* wallpapercmd[] =             { "/home/magic/suckless/scripts/wallpaper.sh", NULL };
+// static const char* timercmd[] =                 { "/home/magic/suckless/scripts/timer.sh", NULL };
 
 // keymaps
 static const Key keys[] = {
@@ -189,7 +197,6 @@ static const Key keys[] = {
     { MODKEY,                       XK_space,                 spawn,          {.v = toggleplaycmd} },
     { MODKEY,                       XK_d,                     spawn,          {.v = dmenucmd } },
     { MODKEY,                       XK_Return,                spawn,          {.v = termcmd } },
-    { MODKEY|ShiftMask,             XK_Return,                spawn,          {.v = wdtermcmd } },
     { MODKEY,                       XK_p,                     spawn,          {.v = sysmenucmd } },
     { MODKEY|ShiftMask,             XK_f,                     spawn,          {.v = firefoxcmd } },
     { MODKEY|ShiftMask,             XK_b,                     spawn,          {.v = bluetoothcmd } },
@@ -197,14 +204,17 @@ static const Key keys[] = {
     { MODKEY,                       XK_w,                     spawn,          {.v = whatsplayingcmd } },
     { MODKEY|ShiftMask,             XK_w,                     spawn,          {.v = wifimenucmd } },
     { MODKEY,                       XK_r,                     spawn,          {.v = batteryremainingcmd } },
+    { MODKEY|ShiftMask,             XK_d,                     spawn,          {.v = definecmd } },
+    { MODKEY|ControlMask,           XK_b,                     spawn,          {.v = wallpapercmd } },
+    // { MODKEY|ShiftMask,             XK_t,                     spawn,          {.v = timercmd } },
     { MODKEY,                       XK_b,                     togglebar,      {0} },
     { MODKEY|ShiftMask,             XK_s,                     toggletags,     {0} },
     { MODKEY,                       XK_j,                     focusstack,     {.i = +1 } },
     { MODKEY,                       XK_k,                     focusstack,     {.i = -1 } },
     { MODKEY|ShiftMask,             XK_j,                     movestack,      {.i = +1} },
     { MODKEY|ShiftMask,             XK_k,                     movestack,      {.i = -1} },
-    { MODKEY|ShiftMask,             XK_i,                     incnmaster,     {.i = +1 } },
-    { MODKEY|ShiftMask,             XK_d,                     incnmaster,     {.i = -1 } },
+    { MODKEY|ShiftMask|ALT,         XK_d,                     incnmaster,     {.i = -1 } }, /* I dont even use these to be honest */
+    { MODKEY|ShiftMask|ALT,         XK_i,                     incnmaster,     {.i = +1 } }, /* ^ ^ ^ ^ */
     { MODKEY,                       XK_h,                     setmfact,       {.f = -0.05} },
     { MODKEY,                       XK_l,                     setmfact,       {.f = +0.05} },
     { MODKEY|ShiftMask|ALT,         XK_Return,                zoom,           {0} },
@@ -271,8 +281,11 @@ static const char* const commands[] = {
     "xset s 300",
     "vol",
     "xss-lock -- slock",
-    "feh --bg-fill /home/magic/Pictures/3.png",
+    "~/.fehbg", /* Set the last selected wallpaper */
     "picom -b",
     "pulseaudio --start",
     "light",
+    "xrandr --output HDMI-2 --auto --rotate normal --left-of eDP-1",
+    "killall slstatus",
+    "slstatus",
 };

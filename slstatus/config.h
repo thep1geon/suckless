@@ -74,9 +74,24 @@ const int notifiable_levels[] = {
  * wifi_perc           WiFi signal in percent          interface name (wlan0)
  */
 
+/*
+ * purple   #D3869b
+ * aqua     #89b482
+ * red      #ea6962
+ * blue     #7daea3
+ * green    #a9b665
+ * orange   #e78a4e
+ * yellow   #d8a657
+ * fg       #d4be98
+*/
+
+// #include "/home/magic/.cache/wal/colors-wal-slstatus.h"
+
+#define COLOR(c) "^c" c  "^"
+
 static const struct arg args[] = {
     /* function format              argument */
-    { datetime,             "^c#89b482^| ^c#ea6962^ %s",       "%a, %b %d - %I:%M%p" }, // Date and time
+    { datetime,             "^c#ea6962^ %s",       "%a, %b %d - %I:%M%p" }, // Date and time
     { run_command,          "^c#89b482^ 󰝚 %s",      "~/suckless/scripts/status-playbackinfo.sh" }, // The currently playing media
     { run_command,          "^c#d3869b^ %s",       "~/suckless/scripts/status-battery.sh BAT0"      }, // Internal battery info
     { battery_remaining,    " %s",                   "BAT0"  },
@@ -90,6 +105,24 @@ static const struct arg args[] = {
     { vol_perc,             "^c#ea6962^  %s",      "Master"    }, // Volume of the current sink
     { uptime,               "^c#7daea3^ 󰁝 %s",      NULL        }, // Total uptime of the system
     { wifi_perc,            "^c#d3869b^ 󰖩 %s%%",    "wlp3s0"    }, // WiFi strength
-    { run_command,          "^c#7daea3^ 󱍖 %s%%",    "light"     }, // Laptop screen brightness
     { run_command,          "^c#d8a657^ 󰚰 %s",      "~/suckless/scripts/status-updates.sh"    }, // Total number of updates for my packages
 };
+
+// static const struct arg args[] = {
+//     /* function format              argument */
+//     { datetime,             COLOR(col1)" %s",       "%a, %b %d - %I:%M%p" }, // Date and time
+//     { run_command,          COLOR(col5)" 󰝚 %s",      "~/suckless/scripts/status-playbackinfo.sh" }, // The currently playing media
+//     { run_command,          COLOR(col2)" %s",       "~/suckless/scripts/status-battery.sh BAT0"      }, // Internal battery info
+//     { battery_remaining,    " %s",                   "BAT0"  },
+//     { battery_notify,       "",                     "BAT0"      }, // Internal battery notification
+//     { run_command,          " %s",                  "~/suckless/scripts/status-battery.sh BAT1"      }, // ^ for the external battery
+//     { battery_remaining,    " %s",                   "BAT1"  },
+//     { battery_notify,       "",                     "BAT1"      }, // ^
+//     { cpu_perc,             COLOR(col3)" 󰻠 %s%%",    NULL        }, // CPU usage percent
+//     { ram_perc,             COLOR(col7)"  %s%%",    NULL        }, // RAM usage percent
+//     { disk_perc,            COLOR(col4)" 󰋊 %s%%",    "/"         }, // Total disk usage
+//     { vol_perc,             COLOR(col6)"  %s",      "Master"    }, // Volume of the current sink
+//     { uptime,               COLOR(col11)" 󰁝 %s",      NULL        }, // Total uptime of the system
+//     { wifi_perc,            COLOR(col8)" 󰖩 %s%%",    "wlp3s0"    }, // WiFi strength
+//     { run_command,          COLOR(col14)" 󰚰 %s",      "~/suckless/scripts/status-updates.sh"    }, // Total number of updates for my packages
+// };

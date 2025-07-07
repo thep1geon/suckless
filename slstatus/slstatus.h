@@ -69,6 +69,9 @@ const char *swap_used(const char *unused);
 /* temperature */
 const char *temp(const char *);
 
+/* timer */
+const char* timer(const char* minutes);
+
 /* uptime */
 const char *uptime(const char *unused);
 
@@ -83,3 +86,4 @@ const char *vol_perc(const char *card);
 /* wifi */
 const char *wifi_essid(const char *interface);
 const char *wifi_perc(const char *interface);
+

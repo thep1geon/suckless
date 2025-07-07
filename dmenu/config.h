@@ -65,6 +65,8 @@ static const char *colors[][2]      = {
     [SchemePrompt] = { col_bg0, col_aqua },
 };
 
+// #include "/home/magic/.cache/wal/colors-wal-dmenu.h"
+
 static const unsigned int alphas[SchemeLast][2] = {
 	[SchemeNorm] = { OPAQUE, alpha },
 	[SchemeSel] = { OPAQUE, alpha },

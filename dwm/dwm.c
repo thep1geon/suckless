@@ -21,6 +21,7 @@
  * To understand everything else, start reading main().
  */
 
+#include <assert.h>
 #include <errno.h>
 #include <locale.h>
 #include <signal.h>
@@ -172,7 +173,7 @@ static void detachstack(Client *c);
 static Monitor *dirtomon(int dir);
 static void drawbar(Monitor *m);
 static void drawbars(void);
-static int drawstatusbar(Monitor *m, int bh, char* text);
+static int drawstatusbar(int bh, char* text);
 static void enternotify(XEvent *e);
 static void expose(XEvent *e);
 static void focus(Client *c);
@@ -769,7 +770,7 @@ dirtomon(int dir)
 }
 
 int
-drawstatusbar(Monitor *m, int bh, char* stext) {
+drawstatusbar(int bh, char* stext) {
 	int ret, i, w, x, len;
 	short isCode = 0;
 	char *text;
@@ -807,7 +808,7 @@ drawstatusbar(Monitor *m, int bh, char* stext) {
 	text = p;
 
 	w += 2; /* 1px padding on both sides */
-	ret = x = m->ww - w;
+	ret = x = selmon->ww - w;
 
 	drw_setscheme(drw, scheme[LENGTH(colors)]);
 	drw->scheme[ColFg] = scheme[SchemeNorm][ColFg];
@@ -879,6 +880,7 @@ drawstatusbar(Monitor *m, int bh, char* stext) {
 void
 drawbar(Monitor *m)
 {
+    int tag = 0;
 	int x, w, tw = 0;
     int y = 0;
 	int boxs = drw->fonts->h / 9;
@@ -892,10 +894,18 @@ drawbar(Monitor *m)
 
 	/* draw status first so it can be overdrawn by tags later */
 	if (m == selmon) { /* status is only drawn on selected monitor */
-		// drw_setscheme(drw, scheme[SchemeNorm]);
-		// tw = TEXTW(stext) - lrpad + 2; /* 2px right padding */
-		// drw_text(drw, m->ww - tw, y, tw, bh, 0, stext, 0);
-        tw = m->ww - drawstatusbar(m, bh, stext);
+        /*
+           drw_setscheme(drw, scheme[SchemeNorm]);
+           tw = TEXTW(stext) - lrpad + 2; // 2 px padding
+           drw_text(drw, m->ww - tw, y, tw, bh, 0, stext, 0);
+        */
+        tw = m->ww - drawstatusbar(bh, stext); /* we don't need to pass the monitor
+                                                  since we only draw the status 
+                                                  on the selected monitor. But this
+                                                  function (drawbar) is called for
+                                                  every monitor, so we should only
+                                                  call the drawstatusbar function once
+                                                  we have the selected monitor*/
 	}
 
 	for (c = m->clients; c; c = c->next) {
@@ -912,6 +922,8 @@ drawbar(Monitor *m)
         if (!show_all_tags) {
             if (occupied || selected) {
                 w = TEXTW(tags[i]);
+                if (urg & 1 << i)
+                    schm = i < LENGTH(colors) - 2 ? scheme[i] : scheme[SchemeSel];
                 drw_setscheme(drw, schm);
                 drw_text(drw, x, y, w, bh, lrpad / 2, tags[i], urg & 1 << i);
                 if (occupied)
@@ -924,20 +936,30 @@ drawbar(Monitor *m)
             w = TEXTW(tags[i]);
             drw_setscheme(drw, schm);
             drw_text(drw, x, y, w, bh, lrpad / 2, tags[i], urg & 1 << i);
-            if (occupied)
+            if (occupied) {
+                if (urg & 1 << i)
+                    schm = i < LENGTH(colors) - 2 ? scheme[i] : scheme[SchemeSel];
                 drw_rect(drw, x + boxs, boxs, boxw, boxw,
                          m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
                          urg & 1 << i);
+            }
             x += w;
         }
 	}
+
 	w = TEXTW(m->ltsymbol);
 	drw_setscheme(drw, scheme[SchemeNorm]);
 	x = drw_text(drw, x, y, w, bh, lrpad / 2, m->ltsymbol, 0);
 
 	if ((w = m->ww - tw - x) > bh) {
 		if (m->sel) {
-			drw_setscheme(drw, scheme[m == selmon ? SchemeSel : SchemeNorm]);
+            i = 0;
+            tag = m->tagset[m->seltags];
+            while (!(tag & 1)) {
+                tag >>= 1;
+                i += 1;
+            }
+			drw_setscheme(drw, scheme[m == selmon ? (i  < LENGTH(colors) - 2 ? i : SchemeSel) : SchemeNorm]);
 			drw_text(drw, x, y, w - 2 * sp, bh, lrpad / 2, m->sel->name, 0);
 			if (m->sel->isfloating)
 				drw_rect(drw, x + boxs, y + boxs, boxw, boxw, m->sel->isfixed, 0);
@@ -946,6 +968,7 @@ drawbar(Monitor *m)
 			drw_rect(drw, x, y, w - 2 * sp, bh, 1, 1);
 		}
 	}
+
 	drw_map(drw, m->barwin, 0, 0, m->ww, bh);
 }
 

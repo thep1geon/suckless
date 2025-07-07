@@ -24,6 +24,7 @@ COM =\
 	components/run_command\
 	components/swap\
 	components/temperature\
+	components/timer\
 	components/uptime\
 	components/user\
 	components/volume\
