@@ -6,8 +6,8 @@ const unsigned int interval = 1000;
 /* text to show if no value can be retrieved */
 static const char unknown_str[] = "n/a";
 
-/* maximum output string length */
-#define MAXLEN 2048
+/* maximum command output length */
+#define CMDLEN 128
 
 /* battery levels to notify - add any levels you want to receive notification for (in percent) */
 const int notifiable_levels[] = {
@@ -89,40 +89,47 @@ const int notifiable_levels[] = {
 
 #define COLOR(c) "^c" c "^"
 
+static const char playbackinfocmd[] = "~/suckless/scripts/status-playbackinfo.sh";
+static const char bat0infocmd[] = "~/suckless/scripts/status-battery.sh BAT0";
+static const char bat1infocmd[] = "~/suckless/scripts/status-battery.sh BAT1";
+static const char updatescmd[] = "~/suckless/scripts/status-updates.sh";
+
+#define BLACK           "#2f1e33" // Color 0
+#define RED             "#ce808b" // Color 1
+#define GREEN           "#80cea3" // Color 2
+#define YELLOW          "#cec580" // Color 3
+#define BLUE            "#809ace" // Color 4
+#define MAGENTA         "#c080ce" // Color 5
+#define CYAN            "#80cecd" // Color 6
+#define WHITE           "#d7b1df" // Color 7
+#define BOLD_BLACK      "#9c7da3" // Color 8
+#define BOLD_RED        "#f48f9d" // Color 9
+#define BOLD_GREEN      "#9ff5c0" // Color 10
+#define BOLD_YELLOW     "#f5eb9f" // Color 11
+#define BOLD_BLUE       "#9fb5f5" // Color 12
+#define BOLD_MAGENTA    "#eb9ff5" // Color 13
+#define BOLD_CYAN       "#9ff5f5" // Color 14
+#define BOLD_WHITE      "#ffdcff" // Color 15
+#define BG              "#2f1e33"
+#define FG              "#d7b1df"
+
 static const struct arg args[] = {
-    /* function format              argument */
-    { datetime,             "^c#ea6962^ %s",       "%a, %b %d - %I:%M%p" }, // Date and time
-    { run_command,          "^c#89b482^ 󰝚 %s",      "~/suckless/scripts/status-playbackinfo.sh" }, // The currently playing media
-    { run_command,          "^c#d3869b^ %s",       "~/suckless/scripts/status-battery.sh BAT0"      }, // Internal battery info
-    { battery_remaining,    " %s",                   "BAT0"  },
-    { battery_notify,       "",                     "BAT0"      }, // Internal battery notification
-    { run_command,          " %s",                  "~/suckless/scripts/status-battery.sh BAT1"      }, // ^ for the external battery
-    { battery_remaining,    " %s",                   "BAT1"  },
-    { battery_notify,       "",                     "BAT1"      }, // ^
-    { cpu_perc,             "^c#d8a657^ 󰻠 %s%%",    NULL        }, // CPU usage percent
-    { ram_perc,             "^c#a9b665^  %s%%",    NULL        }, // RAM usage percent
-    { disk_perc,            "^c#89b482^ 󰋊 %s%%",    "/"         }, // Total disk usage
-    { vol_perc,             "^c#ea6962^  %s",      "Master"    }, // Volume of the current sink
-    { uptime,               "^c#7daea3^ 󰁝 %s",      NULL        }, // Total uptime of the system
-    { wifi_perc,            "^c#d3869b^ 󰖩 %s%%",    "wlp3s0"    }, // WiFi strength
-    { run_command,          "^c#d8a657^ 󰚰 %s",      "~/suckless/scripts/status-updates.sh"    }, // Total number of updates for my packages
+    /* function             format                  argument               turn signal*/
+    { datetime,             COLOR(BOLD_RED)" %s",       "%a, %b %d - %I:%M%p", 1,   -1 }, // Date and time
+    { run_command,          COLOR(CYAN)" 󰝚 %s",      playbackinfocmd,       1,   -1 }, // The currently playing media
+    { run_command,          COLOR(MAGENTA)" %s",        bat0infocmd,           1,   -1 }, // Internal battery info
+    { battery_remaining,    " %s",                  "BAT0",                1,   -1 },
+    { battery_notify,       "",                     "BAT0",                1,   -1 }, // Internal battery notification
+    { run_command,          " %s",                  bat1infocmd,           1,   -1 }, // ^ for the external battery
+    { battery_remaining,    " %s",                  "BAT1",                1,   -1 },
+    { battery_notify,       "",                     "BAT1",                1,   -1 }, // ^
+    { cpu_perc,             COLOR(BOLD_YELLOW)" 󰻠 %s%%",    NULL,                  1,   -1 }, // CPU usage percent
+    { ram_perc,             COLOR(GREEN)"  %s%%",    NULL,                  1,   -1 }, // RAM usage percent
+    { disk_perc,            COLOR(CYAN)" 󰋊 %s%%",    "/",                   1,   -1 }, // Total disk usage
+    { vol_perc,             COLOR(BOLD_RED)"  %s",      "Master",              1,   -1 }, // Volume of the current sink
+    { uptime,               COLOR(BLUE)" 󰁝 %s",      NULL,                  1,   -1 }, // Total uptime of the system
+    { wifi_perc,            COLOR(MAGENTA)" 󰖩 %s%%",    "wlp3s0",              1,   -1 }, // WiFi strength
+    { run_command,          COLOR(BOLD_YELLOW)" 󰚰 %s",      updatescmd,            1,   -1 }, // Total number of updates for my packages
 };
 
-// static const struct arg args[] = {
-//     /* function format              argument */
-//     { datetime,             COLOR(col1)" %s",       "%a, %b %d - %I:%M%p" }, // Date and time
-//     { run_command,          COLOR(col5)" 󰝚 %s",      "~/suckless/scripts/status-playbackinfo.sh" }, // The currently playing media
-//     { run_command,          COLOR(col2)" %s",       "~/suckless/scripts/status-battery.sh BAT0"      }, // Internal battery info
-//     { battery_remaining,    " %s",                   "BAT0"  },
-//     { battery_notify,       "",                     "BAT0"      }, // Internal battery notification
-//     { run_command,          " %s",                  "~/suckless/scripts/status-battery.sh BAT1"      }, // ^ for the external battery
-//     { battery_remaining,    " %s",                   "BAT1"  },
-//     { battery_notify,       "",                     "BAT1"      }, // ^
-//     { cpu_perc,             COLOR(col3)" 󰻠 %s%%",    NULL        }, // CPU usage percent
-//     { ram_perc,             COLOR(col7)"  %s%%",    NULL        }, // RAM usage percent
-//     { disk_perc,            COLOR(col4)" 󰋊 %s%%",    "/"         }, // Total disk usage
-//     { vol_perc,             COLOR(col6)"  %s",      "Master"    }, // Volume of the current sink
-//     { uptime,               COLOR(col11)" 󰁝 %s",      NULL        }, // Total uptime of the system
-//     { wifi_perc,            COLOR(col8)" 󰖩 %s%%",    "wlp3s0"    }, // WiFi strength
-//     { run_command,          COLOR(col14)" 󰚰 %s",      "~/suckless/scripts/status-updates.sh"    }, // Total number of updates for my packages
-// };
+// #define MAXLEN CMDLEN * LEN(args)

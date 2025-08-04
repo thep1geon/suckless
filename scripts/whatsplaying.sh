@@ -1,7 +1,15 @@
 #!/bin/env bash
 
-title="$(playerctl metadata title)"
-artist="$(playerctl metadata artist)"
-album="$(playerctl metadata album)"
+player=""
 
-notify-send "󰝚 $title  $artist 󰀥 $album"
+while IFS= read -r p; do
+    if [[ "$(playerctl --player=$p status)" = "Playing" ]]; then
+        player=$p
+    fi
+done <<< "$(playerctl -l)"
+
+title="$(playerctl metadata title --player=$player)"
+artist="$(playerctl metadata artist --player=$player)"
+album="$(playerctl metadata album --player=$player)"
+
+notify-send "󰝚 $title" " $artist\n\n󰀥 $album"

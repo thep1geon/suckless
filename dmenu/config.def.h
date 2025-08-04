@@ -37,32 +37,52 @@ static const char ef_col_bg5[]      = "#4f5b58";
 static const char ef_col_fg[]       = "#d3c6aa";
 
 // Gruvbox Material
-static const char col_status3[]     = "#504945";
-static const char col_purple[]      = "#D3869b";
-static const char col_aqua[]        = "#89b482";
-static const char col_red[]         = "#ea6962";
-static const char col_blue[]        = "#7daea3";
-static const char col_green[]       = "#a9b665";
-static const char col_orange[]      = "#e78a4e";
-static const char col_yellow[]      = "#d8a657";
+static const char gbm_status3[]     = "#504945";
+static const char gbm_purple[]      = "#D3869b";
+static const char gbm_aqua[]        = "#89b482";
+static const char gbm_red[]         = "#ea6962";
+static const char gbm_blue[]        = "#7daea3";
+static const char gbm_green[]       = "#a9b665";
+static const char gbm_orange[]      = "#e78a4e";
+static const char gbm_yellow[]      = "#d8a657";
+static const char gbm_bg0[]         = "#1d2021";
+static const char gbm_bg1[]         = "#282828";
+static const char gbm_bg2[]         = "#282828";
+static const char gbm_bg3[]         = "#3c3836";
+static const char gbm_bg4[]         = "#3c3836";
+static const char gbm_bg5[]         = "#504945";
+static const char gbm_fg[]          = "#d4be98";
 
-static const char col_bg0[]         = "#1d2021";
-static const char col_bg1[]         = "#282828";
-static const char col_bg2[]         = "#282828";
-static const char col_bg3[]         = "#3c3836";
-static const char col_bg4[]         = "#3c3836";
-static const char col_bg5[]         = "#504945";
-static const char col_fg[]          = "#d4be98";
+// My ColorScheme
+static const char mcs_black[]         = "#2f1e33"; // Color 0
+static const char mcs_red[]           = "#ce808b"; // Color 1
+static const char mcs_green[]         = "#80cea3"; // Color 2
+static const char mcs_yellow[]        = "#cec580"; // Color 3
+static const char mcs_blue[]          = "#809ace"; // Color 4
+static const char mcs_magenta[]       = "#c080ce"; // Color 5
+static const char mcs_cyan[]          = "#80cecd"; // Color 6
+static const char mcs_white[]         = "#d7b1df"; // Color 7
+static const char mcs_bold_black[]    = "#9c7da3"; // Color 8
+static const char mcs_bold_red[]      = "#f48f9d"; // Color 9
+static const char mcs_bold_green[]    = "#9ff5c0"; // Color 10
+static const char mcs_bold_yellow[]   = "#f5eb9f"; // Color 11
+static const char mcs_bold_blue[]     = "#9fb5f5"; // Color 12
+static const char mcs_bold_magenta[]  = "#eb9ff5"; // Color 13
+static const char mcs_bold_cyan[]     = "#9ff5f5"; // Color 14
+static const char mcs_bold_white[]    = "#ffdcff"; // Color 15
+static const char mcs_bg[]            = "#2f1e33";
+static const char mcs_fg[]            = "#d7b1df";
+
 static const char *colors[][2]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { col_fg, col_bg0 },
-	[SchemeSel]  = { col_aqua, col_bg0 },
+	[SchemeNorm] = { mcs_fg, mcs_bg },
+	[SchemeSel]  = { mcs_green, mcs_bg },
 	[SchemeOut]  = { "#000000", "#00ffff" },
- 	[SchemeSelHighlight] = { col_purple, col_bg0 },
- 	[SchemeNormHighlight] = { col_blue, col_bg0 },
-    [SchemeBorder] = { col_aqua, col_aqua },
-    [SchemeInput] = { col_aqua, col_bg0 },
-    [SchemePrompt] = { col_bg0, col_aqua },
+ 	[SchemeSelHighlight] = { mcs_blue, mcs_bg },
+ 	[SchemeNormHighlight] = { mcs_blue, mcs_bg },
+    [SchemeBorder] = { mcs_magenta, mcs_magenta },
+    [SchemeInput] = { mcs_magenta, mcs_bg },
+    [SchemePrompt] = { mcs_bg, mcs_magenta },
 };
 
 // #include "/home/magic/.cache/wal/colors-wal-dmenu.h"

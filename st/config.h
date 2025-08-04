@@ -108,35 +108,74 @@ unsigned int tabspaces = 4;
 /* bg opacity */
 float alpha = 0.70;
 
+// Gruvbox-material
+// static char black[]         = "#665c54";
+// static char red[]           = "#ea6962";
+// static char green[]         = "#a9b665";
+// static char yellow[]        = "#e78a4e";
+// static char blue[]          = "#7daea3";
+// static char magenta[]       = "#d3869b";
+// static char cyan[]          = "#89b482";
+// static char white[]         = "#d4be98";
+// static char bold_black[]    = "#928374";
+// static char bold_red[]      = "#ea6962";
+// static char bold_green[]    = "#a9b665";
+// static char bold_yellow[]   = "#d8a657";
+// static char bold_blue[]     = "#7daea3";
+// static char bold_magenta[]  = "#d3869b";
+// static char bold_cyan[]     = "#89b482";
+// static char bold_white[]    = "#d4be98";
+
+// My Colorscheme
+static char black[]         = "#2f1e33"; // Color 0
+static char red[]           = "#ce808b"; // Color 1
+static char green[]         = "#80cea3"; // Color 2
+static char yellow[]        = "#cec580"; // Color 3
+static char blue[]          = "#809ace"; // Color 4
+static char magenta[]       = "#c080ce"; // Color 5
+static char cyan[]          = "#80cecd"; // Color 6
+static char white[]         = "#d7b1df"; // Color 7
+static char bold_black[]    = "#9c7da3"; // Color 8
+static char bold_red[]      = "#f48f9d"; // Color 9
+static char bold_green[]    = "#9ff5c0"; // Color 10
+static char bold_yellow[]   = "#f5eb9f"; // Color 11
+static char bold_blue[]     = "#9fb5f5"; // Color 12
+static char bold_magenta[]  = "#eb9ff5"; // Color 13
+static char bold_cyan[]     = "#9ff5f5"; // Color 14
+static char bold_white[]    = "#ffdcff"; // Color 15
+
+static char bg[]            = "#2f1e33";
+static char fg[]            = "#d7b1df";
+
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
-	/* 8 normal colors */
-	"#665c54",
-	"#ea6962",
-	"#a9b665",
-	"#e78a4e",
-	"#7daea3",
-	"#d3869b",
-	"#89b482",
-	"#d4be98",
+	// /* 8 normal colors */
+    black,
+    red,
+    green,
+    yellow,
+    blue,
+    magenta,
+    cyan,
+    white,
 
 	/* 8 bright colors */
-	"#928374",
-	"#ea6962",
-	"#a9b665",
-	"#d8a657",
-	"#7daea3",
-	"#d3869b",
-	"#89b482",
-	"#d4be98",
+    bold_black,
+    bold_red,
+    bold_green,
+    bold_yellow,
+    bold_blue,
+    bold_magenta,
+    bold_cyan,
+    bold_white,
 
 	[255] = 0,
 
 	/* more colors can be added after 255 to use with DefaultXX */
-	"#d4be98", /* Cursor color */
-	"#ff0000", /* Reverse cursor color */
-	"#d4be98", /* Foreground color */
-	"#141617", /* Background color */
+	fg, /* Cursor color */
+	bg, /* Reverse cursor color */
+	fg, /* Foreground color */
+	bg, /* Background color */
 };
 
 

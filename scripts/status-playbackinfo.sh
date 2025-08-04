@@ -1,9 +1,15 @@
 #!/bin/env bash
 
-status=""
 
-title="$(playerctl metadata title)"
-artist="$(playerctl metadata artist)"
-album="$(playerctl metadata album)"
+player=""
 
-printf "%.*s  %.*s 󰀥 %.*s" 16 "$title" 16 "$artist" 16 "$album"
+while IFS= read -r p; do
+    if [[ "$(playerctl --player=$p status)" = "Playing" ]]; then
+        player=$p
+    fi
+done <<< "$(playerctl -l)"
+
+title="$(playerctl metadata title --player=$player)"
+artist="$(playerctl metadata artist --player=$player)"
+
+printf "%.*s  %.*s" 16 "$title" 16 "$artist"
