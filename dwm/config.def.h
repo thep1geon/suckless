@@ -13,8 +13,10 @@ static const unsigned int gappov    = 5;       /* vert outer gap between windows
 static const int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const int vertpad            = 5;        /* vertical padding of bar */
-static const int sidepad            = 5;        /* horizontal padding of bar */
+// static const int vertpad            = 5;        /* vertical padding of bar */
+// static const int sidepad            = 5;        /* horizontal padding of bar */
+static const int vertpad            = 0;        /* vertical padding of bar */
+static const int sidepad            = 0;        /* horizontal padding of bar */
 static const char *fonts[]          = { "caskaydia cove nfm:size=12" };
 static const char dmenufont[]       = "caskaydia cove nfm:size=12";
 
@@ -165,7 +167,7 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] =                 { "dmenu_run", "-c", "-R", "-m", dmenumon, "-fn", dmenufont, "-l", "15", "-p", "Application Runner:", NULL };
+static const char *dmenucmd[] =                 { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-l", "0", "-p", "Application Runner:", NULL };
 
 static const char *termcmd[]  =                 { "st", NULL };
 
@@ -299,8 +301,8 @@ static const Button buttons[] = {
 
 static const char* const commands[] = {
     "xset s 300",
-    "vol",
     "xss-lock -- slock",
+    "vol",
     "~/.fehbg", /* Set the last selected wallpaper */
     "picom -b",
     "pulseaudio --start",

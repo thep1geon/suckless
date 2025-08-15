@@ -81,7 +81,7 @@ static const char *colors[][2]      = {
  	[SchemeSelHighlight] = { mcs_blue, mcs_bg },
  	[SchemeNormHighlight] = { mcs_blue, mcs_bg },
     [SchemeBorder] = { mcs_magenta, mcs_magenta },
-    [SchemeInput] = { mcs_magenta, mcs_bg },
+    [SchemeInput] = { mcs_fg, mcs_bg },
     [SchemePrompt] = { mcs_bg, mcs_magenta },
 };
 

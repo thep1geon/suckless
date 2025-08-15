@@ -852,7 +852,13 @@ setup(void)
 		} else {
 			x = info[i].x_org;
 			y = info[i].y_org + (topbar ? 0 : info[i].height - mh);
-			mw = info[i].width;
+            /*
+             * Mon Aug  4 06:58:58 PM EDT 2025 
+             *
+             * Let this be known that at around this time, I correctly guessed
+             * how many pixels dmenu was off by on my first try
+             * */
+			mw = info[i].width - 5; /* Holy shit that was correct. */
 		}
 
 		XFree(info);

@@ -30,7 +30,7 @@ function attempt_to_connect {
     fi
 }
 
-case "$(echo -e "Connect\nDisconnect\nSee Connection" | dmenu -c -R -p "Network Menu:")" in
+case "$(echo -e "Connect\nDisconnect\nSee Connection" | dmenu -l 0 -p "Network Menu:")" in
     Connect)
         selection=$(get_wifi_options)
         ssid=$(echo "$selection" | sed 's/ \[.*//')

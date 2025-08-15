@@ -117,19 +117,19 @@ static const struct arg args[] = {
     /* function             format                  argument               turn signal*/
     { datetime,             COLOR(BOLD_RED)" %s",       "%a, %b %d - %I:%M%p", 1,   -1 }, // Date and time
     { run_command,          COLOR(CYAN)" 󰝚 %s",      playbackinfocmd,       1,   -1 }, // The currently playing media
-    { run_command,          COLOR(MAGENTA)" %s",        bat0infocmd,           1,   -1 }, // Internal battery info
+    { run_command,          COLOR(BOLD_MAGENTA)" %s",        bat0infocmd,           1,   -1 }, // Internal battery info
     { battery_remaining,    " %s",                  "BAT0",                1,   -1 },
     { battery_notify,       "",                     "BAT0",                1,   -1 }, // Internal battery notification
     { run_command,          " %s",                  bat1infocmd,           1,   -1 }, // ^ for the external battery
     { battery_remaining,    " %s",                  "BAT1",                1,   -1 },
     { battery_notify,       "",                     "BAT1",                1,   -1 }, // ^
-    { cpu_perc,             COLOR(BOLD_YELLOW)" 󰻠 %s%%",    NULL,                  1,   -1 }, // CPU usage percent
+    { cpu_perc,             COLOR(YELLOW)" 󰻠 %s%%",    NULL,                  1,   -1 }, // CPU usage percent
     { ram_perc,             COLOR(GREEN)"  %s%%",    NULL,                  1,   -1 }, // RAM usage percent
     { disk_perc,            COLOR(CYAN)" 󰋊 %s%%",    "/",                   1,   -1 }, // Total disk usage
     { vol_perc,             COLOR(BOLD_RED)"  %s",      "Master",              1,   -1 }, // Volume of the current sink
-    { uptime,               COLOR(BLUE)" 󰁝 %s",      NULL,                  1,   -1 }, // Total uptime of the system
-    { wifi_perc,            COLOR(MAGENTA)" 󰖩 %s%%",    "wlp3s0",              1,   -1 }, // WiFi strength
-    { run_command,          COLOR(BOLD_YELLOW)" 󰚰 %s",      updatescmd,            1,   -1 }, // Total number of updates for my packages
+    { uptime,               COLOR(BOLD_BLUE)" 󰁝 %s",      NULL,                  1,   -1 }, // Total uptime of the system
+    { wifi_perc,            COLOR(BOLD_MAGENTA)" 󰖩 %s%%",    "wlp3s0",              1,   -1 }, // WiFi strength
+    { run_command,          COLOR(YELLOW)" 󰚰 %s",      updatescmd,            1,   -1 }, // Total number of updates for my packages
 };
 
 // #define MAXLEN CMDLEN * LEN(args)

@@ -2006,11 +2006,13 @@ showhide(Client *c)
 void
 sighandler(int sig) {
     FILE* file;
+
     if (sig != SIGUSR1) return; /* Return early, its not the signal we want to catch */
 
     file = fopen("/home/magic/suckless/dwm/mon", "w");
     if (!file) {
         perror("sighandler file failed");
+        exit(-1);
         return;
     }
 
