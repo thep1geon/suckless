@@ -20,6 +20,7 @@ COM =\
 	components/load_avg\
 	components/netspeeds\
 	components/num_files\
+	components/rain\
 	components/ram\
 	components/run_command\
 	components/swap\

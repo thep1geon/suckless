@@ -5,11 +5,15 @@
 
 /* appearance */
 static const unsigned int borderpx  = 2;        /* border pixel of windows */
-static const unsigned int snap      = 32;       /* snap pixel */
+static const unsigned int snap      = 16;       /* snap pixel */
 static const unsigned int gappih    = 5;       /* horiz inner gap between windows */
 static const unsigned int gappiv    = 5;       /* vert inner gap between windows */
 static const unsigned int gappoh    = 5;       /* horiz outer gap between windows and screen edge */
 static const unsigned int gappov    = 5;       /* vert outer gap between windows and screen edge */
+// static const unsigned int gappih    = 0;       /* horiz inner gap between windows */
+// static const unsigned int gappiv    = 0;       /* vert inner gap between windows */
+// static const unsigned int gappoh    = 0;       /* horiz outer gap between windows and screen edge */
+// static const unsigned int gappov    = 0;       /* vert outer gap between windows and screen edge */
 static const int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
@@ -63,38 +67,38 @@ static const char gbm_bg5[]         = "#504945";
 static const char gbm_fg[]          = "#d4be98";
 
 /* My Colorscheme */
-static const char mcs_black[]         = "#2f1e33"; // Color 0
-static const char mcs_red[]           = "#ce808b"; // Color 1
-static const char mcs_green[]         = "#80cea3"; // Color 2
-static const char mcs_yellow[]        = "#cec580"; // Color 3
-static const char mcs_blue[]          = "#809ace"; // Color 4
-static const char mcs_magenta[]       = "#c080ce"; // Color 5
-static const char mcs_cyan[]          = "#80cecd"; // Color 6
-static const char mcs_white[]         = "#d7b1df"; // Color 7
-static const char mcs_bold_black[]    = "#9c7da3"; // Color 8
-static const char mcs_bold_red[]      = "#f48f9d"; // Color 9
-static const char mcs_bold_green[]    = "#9ff5c0"; // Color 10
-static const char mcs_bold_yellow[]   = "#f5eb9f"; // Color 11
-static const char mcs_bold_blue[]     = "#9fb5f5"; // Color 12
-static const char mcs_bold_magenta[]  = "#eb9ff5"; // Color 13
-static const char mcs_bold_cyan[]     = "#9ff5f5"; // Color 14
-static const char mcs_bold_white[]    = "#ffdcff"; // Color 15
-static const char mcs_bg[]            = "#2f1e33";
-static const char mcs_fg[]            = "#d7b1df";
+static const char blocks_black[]         = "#2f1e33"; // Color 0
+static const char blocks_red[]           = "#ce80ac"; // Color 1
+static const char blocks_green[]         = "#80cea3"; // Color 2
+static const char blocks_yellow[]        = "#cec580"; // Color 3
+static const char blocks_blue[]          = "#809ace"; // Color 4
+static const char blocks_magenta[]       = "#c080ce"; // Color 5
+static const char blocks_cyan[]          = "#80cecd"; // Color 6
+static const char blocks_white[]         = "#d7b1df"; // Color 7
+static const char blocks_bold_black[]    = "#9c7da3"; // Color 8
+static const char blocks_bold_red[]      = "#f59fca"; // Color 9
+static const char blocks_bold_green[]    = "#9ff5c0"; // Color 10
+static const char blocks_bold_yellow[]   = "#f5eb9f"; // Color 11
+static const char blocks_bold_blue[]     = "#9fb5f5"; // Color 12
+static const char blocks_bold_magenta[]  = "#eb9ff5"; // Color 13
+static const char blocks_bold_cyan[]     = "#9ff5f5"; // Color 14
+static const char blocks_bold_white[]    = "#ffdcff"; // Color 15
+static const char blocks_bg[]            = "#2f1e33";
+static const char blocks_fg[]            = "#d7b1df";
 
 static const char *colors[][3]      = {
     /* fg               bg          border */
-    { mcs_blue,         mcs_bg,    mcs_blue },  /* Tag 1 */
-    { mcs_magenta,      mcs_bg,    mcs_magenta },/* Tag 2 */
-    { mcs_cyan,         mcs_bg,    mcs_cyan },  /* Tag 3 */
-    { mcs_red,          mcs_bg,    mcs_red },  // Tag 4
-    { mcs_green ,       mcs_bg,    mcs_green },  // Tag 5
-    { mcs_bold_yellow,  mcs_bg,    mcs_bold_yellow },  // Tag 6
-    { mcs_yellow,       mcs_bg,    mcs_yellow },  // Tag 7
-    { mcs_blue,         mcs_bg,    mcs_red },  // Tag 8
-    { mcs_magenta,      mcs_bg,    mcs_yellow },  // Tag 9
-    { mcs_fg,           mcs_bg,    mcs_bg },  // SchemeNorm
-    { mcs_magenta,      mcs_bg,    mcs_magenta },  // SchemeSel
+    { blocks_blue,         blocks_bg,    blocks_blue },  /* Tag 1 */
+    { blocks_magenta,      blocks_bg,    blocks_magenta },/* Tag 2 */
+    { blocks_cyan,         blocks_bg,    blocks_cyan },  /* Tag 3 */
+    { blocks_bold_red,     blocks_bg,    blocks_bold_red },  // Tag 4
+    { blocks_green ,       blocks_bg,    blocks_green },  // Tag 5
+    { blocks_bold_yellow,  blocks_bg,    blocks_bold_yellow },  // Tag 6
+    { blocks_yellow,       blocks_bg,    blocks_yellow },  // Tag 7
+    { blocks_blue,         blocks_bg,    blocks_red },  // Tag 8
+    { blocks_magenta,      blocks_bg,    blocks_yellow },  // Tag 9
+    { blocks_fg,           blocks_bg,    blocks_bg },  // SchemeNorm
+    { blocks_magenta,      blocks_bg,    blocks_magenta },  // SchemeSel
 };
 
 // #include "/home/magic/.cache/wal/colors-wal-dwm.h"
@@ -131,9 +135,10 @@ static const Rule rules[] = {
     /* class      instance    title       tags mask     isfloating   monitor */
     { "Blueman",        NULL,       NULL,       0,            1,           -1 },
     { "Thunar",         NULL,       NULL,       0,            1,           -1 },
-    { "Gimp",            NULL,       NULL,       0,            1,           -1 },
-    { "Firefox",         NULL,       NULL,       1 << 8,       0,           -1 },
-    { "sxiv",           NULL,       NULL,       0,       1,           -1 },
+    { "Gimp",           NULL,       NULL,       0,            1,           -1 },
+    { "firefox",        NULL,       NULL,       1,            0,           -1 },
+    { "Sxiv",           NULL,       NULL,       0,            1,           -1 },
+    { "TODOAPP",        NULL,       NULL,       0,            1,           -1 },
 };
 
 /* layout(s) */
@@ -196,6 +201,7 @@ static const char* displayswitchercmd[] =       { "/home/magic/suckless/scripts/
 static const char* wifimenucmd[] =              { "/home/magic/suckless/scripts/wifimenu.sh", NULL };
 static const char* definecmd[] =                { "/home/magic/suckless/scripts/define.sh", NULL };
 static const char* wallpapercmd[] =             { "/home/magic/suckless/scripts/wallpaper.sh", NULL };
+static const char* screenshakercmd[] =          { "screen-shaker", NULL };
 // static const char* timercmd[] =                 { "/home/magic/suckless/scripts/timer.sh", NULL };
 
 // keymaps
@@ -229,6 +235,7 @@ static const Key keys[] = {
     { MODKEY|ShiftMask,             XK_d,                     spawn,          {.v = definecmd } },
     { MODKEY|ControlMask,           XK_b,                     spawn,          {.v = wallpapercmd } },
     // { MODKEY|ShiftMask,             XK_t,                     spawn,          {.v = timercmd } },
+    { MODKEY|ShiftMask,             XK_p,                     spawn,          {.v = screenshakercmd } },
     { MODKEY,                       XK_b,                     togglebar,      {0} },
     { MODKEY|ShiftMask,             XK_s,                     toggletags,     {0} },
     { MODKEY,                       XK_j,                     focusstack,     {.i = +1 } },
@@ -254,20 +261,20 @@ static const Key keys[] = {
     { MODKEY|ShiftMask,             XK_Tab,                   focusmon,       {.i = +1 } },
     { MODKEY|ShiftMask,             XK_comma,                 tagmon,         {.i = -1 } },
     { MODKEY|ShiftMask,             XK_period,                tagmon,         {.i = +1 } },
-    { MODKEY|Mod1Mask,              XK_h,                     incrgaps,       {.i = +1 } },
-    { MODKEY|Mod1Mask,              XK_l,                     incrgaps,       {.i = -1 } },
-    { MODKEY|Mod1Mask|ShiftMask,    XK_h,                     incrogaps,      {.i = +1 } },
-    { MODKEY|Mod1Mask|ShiftMask,    XK_l,                     incrogaps,      {.i = -1 } },
-    { MODKEY|Mod1Mask|ControlMask,  XK_h,                     incrigaps,      {.i = +1 } },
-    { MODKEY|Mod1Mask|ControlMask,  XK_l,                     incrigaps,      {.i = -1 } },
-    { MODKEY|Mod1Mask,              XK_0,                     togglegaps,     {0} },
-    { MODKEY|Mod1Mask|ShiftMask,    XK_0,                     defaultgaps,    {0} },
+    { MODKEY|ALT,                   XK_h,                     incrgaps,       {.i = +1 } },
+    { MODKEY|ALT,                   XK_l,                     incrgaps,       {.i = -1 } },
+    { MODKEY|ALT|ShiftMask,         XK_h,                     incrogaps,      {.i = +1 } },
+    { MODKEY|ALT|ShiftMask,         XK_l,                     incrogaps,      {.i = -1 } },
+    { MODKEY|ALT|ControlMask,       XK_h,                     incrigaps,      {.i = +1 } },
+    { MODKEY|ALT|ControlMask,       XK_l,                     incrigaps,      {.i = -1 } },
+    { MODKEY|ALT,                   XK_0,                     togglegaps,     {0} },
+    { MODKEY|ALT|ShiftMask,         XK_0,                     defaultgaps,    {0} },
     { MODKEY,                       XK_y,                     incrihgaps,     {.i = +1 } },
     { MODKEY,                       XK_o,                     incrihgaps,     {.i = -1 } },
     { MODKEY|ControlMask,           XK_y,                     incrivgaps,     {.i = +1 } },
     { MODKEY|ControlMask,           XK_o,                     incrivgaps,     {.i = -1 } },
-    { MODKEY|Mod1Mask,              XK_y,                     incrohgaps,     {.i = +1 } },
-    { MODKEY|Mod1Mask,              XK_o,                     incrohgaps,     {.i = -1 } },
+    { MODKEY|ALT,                   XK_y,                     incrohgaps,     {.i = +1 } },
+    { MODKEY|ALT,                   XK_o,                     incrohgaps,     {.i = -1 } },
     { MODKEY|ShiftMask,             XK_y,                     incrovgaps,     {.i = +1 } },
     { MODKEY|ShiftMask,             XK_o,                     incrovgaps,     {.i = -1 } },
     TAGKEYS(                        XK_1,                                     0)
@@ -304,10 +311,10 @@ static const char* const commands[] = {
     "xss-lock -- slock",
     "vol",
     "~/.fehbg", /* Set the last selected wallpaper */
-    "picom -b",
     "pulseaudio --start",
     "light",
     "xrandr --output HDMI-2 --auto --rotate normal --left-of eDP-1",
     "killall slstatus",
     "slstatus",
+    "picom -b",
 };

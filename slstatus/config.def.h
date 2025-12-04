@@ -95,7 +95,7 @@ static const char bat1infocmd[] = "~/suckless/scripts/status-battery.sh BAT1";
 static const char updatescmd[] = "~/suckless/scripts/status-updates.sh";
 
 #define BLACK           "#2f1e33" // Color 0
-#define RED             "#ce808b" // Color 1
+#define RED             "#ce80ac" // Color 1
 #define GREEN           "#80cea3" // Color 2
 #define YELLOW          "#cec580" // Color 3
 #define BLUE            "#809ace" // Color 4
@@ -103,7 +103,7 @@ static const char updatescmd[] = "~/suckless/scripts/status-updates.sh";
 #define CYAN            "#80cecd" // Color 6
 #define WHITE           "#d7b1df" // Color 7
 #define BOLD_BLACK      "#9c7da3" // Color 8
-#define BOLD_RED        "#f48f9d" // Color 9
+#define BOLD_RED        "#f59fca" // Color 9
 #define BOLD_GREEN      "#9ff5c0" // Color 10
 #define BOLD_YELLOW     "#f5eb9f" // Color 11
 #define BOLD_BLUE       "#9fb5f5" // Color 12
@@ -115,7 +115,41 @@ static const char updatescmd[] = "~/suckless/scripts/status-updates.sh";
 
 static const struct arg args[] = {
     /* function             format                  argument               turn signal*/
-    { datetime,             COLOR(BOLD_RED)" %s",       "%a, %b %d - %I:%M%p", 1,   -1 }, // Date and time
+    { rain,                 COLOR(CYAN)"%s",   NULL, 1,   -1 },
+    { rain,                 COLOR(CYAN)"%s",   NULL, 1,   -1 },
+    { rain,                 COLOR(CYAN)"%s",   NULL, 1,   -1 },
+    { rain,                 COLOR(CYAN)"%s",   NULL, 1,   -1 },
+    { rain,                 COLOR(CYAN)"%s",   NULL, 1,   -1 },
+    { rain,                 COLOR(CYAN)"%s",   NULL, 1,   -1 },
+    { rain,                 COLOR(CYAN)"%s",   NULL, 1,   -1 },
+    { rain,                 COLOR(CYAN)"%s",   NULL, 1,   -1 },
+    { rain,                 COLOR(CYAN)"%s",   NULL, 1,   -1 },
+    { rain,                 COLOR(CYAN)"%s",   NULL, 1,   -1 },
+    { rain,                 COLOR(CYAN)"%s",   NULL, 1,   -1 },
+    { rain,                 COLOR(CYAN)"%s",   NULL, 1,   -1 },
+    { rain,                 COLOR(CYAN)"%s",   NULL, 1,   -1 },
+    { rain,                 COLOR(CYAN)"%s",   NULL, 1,   -1 },
+    { rain,                 COLOR(CYAN)"%s",   NULL, 1,   -1 },
+    { rain,                 COLOR(CYAN)"%s",   NULL, 1,   -1 },
+    { rain,                 COLOR(CYAN)"%s",   NULL, 1,   -1 },
+    { rain,                 COLOR(CYAN)"%s",   NULL, 1,   -1 },
+    { rain,                 COLOR(CYAN)"%s",   NULL, 1,   -1 },
+    { rain,                 COLOR(CYAN)"%s",   NULL, 1,   -1 },
+    { rain,                 COLOR(CYAN)"%s",   NULL, 1,   -1 },
+    { rain,                 COLOR(CYAN)"%s",   NULL, 1,   -1 },
+    { rain,                 COLOR(CYAN)"%s",   NULL, 1,   -1 },
+    { rain,                 COLOR(CYAN)"%s",   NULL, 1,   -1 },
+    { rain,                 COLOR(CYAN)"%s",   NULL, 1,   -1 },
+    { rain,                 COLOR(CYAN)"%s",   NULL, 1,   -1 },
+    { rain,                 COLOR(CYAN)"%s",   NULL, 1,   -1 },
+    { rain,                 COLOR(CYAN)"%s",   NULL, 1,   -1 },
+    { rain,                 COLOR(CYAN)"%s",   NULL, 1,   -1 },
+    { rain,                 COLOR(CYAN)"%s",   NULL, 1,   -1 },
+    { rain,                 COLOR(CYAN)"%s",   NULL, 1,   -1 },
+    { rain,                 COLOR(CYAN)"%s",   NULL, 1,   -1 },
+    { rain,                 COLOR(CYAN)"%s",   NULL, 1,   -1 },
+    { rain,                 COLOR(CYAN)"%s",   NULL, 1,   -1 },
+    { datetime,             COLOR(BOLD_RED)"  %s",       "%a, %b %d - %I:%M%p", 1,   -1 }, // Date and time
     { run_command,          COLOR(CYAN)" 󰝚 %s",      playbackinfocmd,       1,   -1 }, // The currently playing media
     { run_command,          COLOR(BOLD_MAGENTA)" %s",        bat0infocmd,           1,   -1 }, // Internal battery info
     { battery_remaining,    " %s",                  "BAT0",                1,   -1 },

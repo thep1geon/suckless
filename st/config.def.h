@@ -126,9 +126,9 @@ float alpha = 0.70;
 // static char bold_cyan[]     = "#89b482";
 // static char bold_white[]    = "#d4be98";
 
-// My Colorscheme
+// Blocks
 static char black[]         = "#2f1e33"; // Color 0
-static char red[]           = "#ce808b"; // Color 1
+static char red[]           = "#ce80ac"; // Color 1
 static char green[]         = "#80cea3"; // Color 2
 static char yellow[]        = "#cec580"; // Color 3
 static char blue[]          = "#809ace"; // Color 4
@@ -136,7 +136,7 @@ static char magenta[]       = "#c080ce"; // Color 5
 static char cyan[]          = "#80cecd"; // Color 6
 static char white[]         = "#d7b1df"; // Color 7
 static char bold_black[]    = "#9c7da3"; // Color 8
-static char bold_red[]      = "#f48f9d"; // Color 9
+static char bold_red[]      = "#f59fca"; // Color 9
 static char bold_green[]    = "#9ff5c0"; // Color 10
 static char bold_yellow[]   = "#f5eb9f"; // Color 11
 static char bold_blue[]     = "#9fb5f5"; // Color 12

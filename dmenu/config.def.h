@@ -54,35 +54,35 @@ static const char gbm_bg5[]         = "#504945";
 static const char gbm_fg[]          = "#d4be98";
 
 // My ColorScheme
-static const char mcs_black[]         = "#2f1e33"; // Color 0
-static const char mcs_red[]           = "#ce808b"; // Color 1
-static const char mcs_green[]         = "#80cea3"; // Color 2
-static const char mcs_yellow[]        = "#cec580"; // Color 3
-static const char mcs_blue[]          = "#809ace"; // Color 4
-static const char mcs_magenta[]       = "#c080ce"; // Color 5
-static const char mcs_cyan[]          = "#80cecd"; // Color 6
-static const char mcs_white[]         = "#d7b1df"; // Color 7
-static const char mcs_bold_black[]    = "#9c7da3"; // Color 8
-static const char mcs_bold_red[]      = "#f48f9d"; // Color 9
-static const char mcs_bold_green[]    = "#9ff5c0"; // Color 10
-static const char mcs_bold_yellow[]   = "#f5eb9f"; // Color 11
-static const char mcs_bold_blue[]     = "#9fb5f5"; // Color 12
-static const char mcs_bold_magenta[]  = "#eb9ff5"; // Color 13
-static const char mcs_bold_cyan[]     = "#9ff5f5"; // Color 14
-static const char mcs_bold_white[]    = "#ffdcff"; // Color 15
-static const char mcs_bg[]            = "#2f1e33";
-static const char mcs_fg[]            = "#d7b1df";
+static const char blocks_black[]         = "#2f1e33"; // Color 0
+static const char blocks_red[]           = "#ce80ac"; // Color 1
+static const char blocks_green[]         = "#80cea3"; // Color 2
+static const char blocks_yellow[]        = "#cec580"; // Color 3
+static const char blocks_blue[]          = "#809ace"; // Color 4
+static const char blocks_magenta[]       = "#c080ce"; // Color 5
+static const char blocks_cyan[]          = "#80cecd"; // Color 6
+static const char blocks_white[]         = "#d7b1df"; // Color 7
+static const char blocks_bold_black[]    = "#9c7da3"; // Color 8
+static const char blocks_bold_red[]      = "#f59fca"; // Color 9
+static const char blocks_bold_green[]    = "#9ff5c0"; // Color 10
+static const char blocks_bold_yellow[]   = "#f5eb9f"; // Color 11
+static const char blocks_bold_blue[]     = "#9fb5f5"; // Color 12
+static const char blocks_bold_magenta[]  = "#eb9ff5"; // Color 13
+static const char blocks_bold_cyan[]     = "#9ff5f5"; // Color 14
+static const char blocks_bold_white[]    = "#ffdcff"; // Color 15
+static const char blocks_bg[]            = "#2f1e33";
+static const char blocks_fg[]            = "#d7b1df";
 
 static const char *colors[][2]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { mcs_fg, mcs_bg },
-	[SchemeSel]  = { mcs_green, mcs_bg },
+	[SchemeNorm] = { blocks_fg, blocks_bg },
+	[SchemeSel]  = { blocks_green, blocks_bg },
 	[SchemeOut]  = { "#000000", "#00ffff" },
- 	[SchemeSelHighlight] = { mcs_blue, mcs_bg },
- 	[SchemeNormHighlight] = { mcs_blue, mcs_bg },
-    [SchemeBorder] = { mcs_magenta, mcs_magenta },
-    [SchemeInput] = { mcs_fg, mcs_bg },
-    [SchemePrompt] = { mcs_bg, mcs_magenta },
+ 	[SchemeSelHighlight] = { blocks_blue, blocks_bg },
+ 	[SchemeNormHighlight] = { blocks_blue, blocks_bg },
+    [SchemeBorder] = { blocks_magenta, blocks_magenta },
+    [SchemeInput] = { blocks_fg, blocks_bg },
+    [SchemePrompt] = { blocks_bg, blocks_magenta },
 };
 
 // #include "/home/magic/.cache/wal/colors-wal-dmenu.h"

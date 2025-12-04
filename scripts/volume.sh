@@ -15,11 +15,11 @@ function get_mute {
 case "$1" in
     up)
         pactl set-sink-volume @DEFAULT_SINK@ +5%
-        notify-send --hint=int:value:$(get_vol) "Volume" -i ~/.icons/48x48/status/notification-audio-volume-high.svg
+        notify-send -h int:value:$(get_vol) "Volume" -i ~/.icons/48x48/status/notification-audio-volume-high.svg
         ;;
     down) 
         pactl set-sink-volume @DEFAULT_SINK@ -5%
-        notify-send --hint=int:value:$(get_vol) "Volume" -i ~/.icons/48x48/status/notification-audio-volume-high.svg
+        notify-send -h int:value:$(get_vol) "Volume" -i ~/.icons/48x48/status/notification-audio-volume-high.svg
         ;;
     mute)
         pactl set-sink-mute @DEFAULT_SINK@ toggle

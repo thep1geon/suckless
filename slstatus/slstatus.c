@@ -115,6 +115,8 @@ main(int argc, char *argv[])
 	if (argc)
 		usage();
 
+    srand(time(0));
+
 	memset(&act, 0, sizeof(act));
 	act.sa_handler = sighandler;
 	sigaction(SIGINT,  &act, NULL);

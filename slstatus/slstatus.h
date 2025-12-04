@@ -51,6 +51,8 @@ const char *netspeed_tx(const char *interface);
 /* num_files */
 const char *num_files(const char *path);
 
+const char *rain(const char* unused);
+
 /* ram */
 const char *ram_free(const char *unused);
 const char *ram_perc(const char *unused);
@@ -59,6 +61,7 @@ const char *ram_used(const char *unused);
 
 /* run_command */
 const char *run_command(const char *cmd);
+
 
 /* swap */
 const char *swap_free(const char *unused);
